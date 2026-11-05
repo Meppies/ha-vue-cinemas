@@ -20,8 +20,8 @@ Taken on Home Assistant 2026.11 with live data from Vue Amsterdam.
 
 **Tap a showing for everything about the film and that showing:** backdrop,
 poster, Kijkwijzer rating and content descriptors, screen, price, wheelchair
-space, other showings, synopsis, genre and cast, the trailer and a button to
-buy tickets.
+space, other showings, synopsis, genre and cast, a button to buy tickets,
+and a link to the trailer on vuecinemas.nl.
 
 ![Detail dialog of a showing](https://raw.githubusercontent.com/Meppies/ha-vue-cinemas/main/docs/images/details.png)
 
@@ -77,7 +77,8 @@ showings for ages up to 6, fourteen days ahead, without sold-out showings.
   poster, Kijkwijzer rating and content descriptors, date, time, screen,
   price, wheelchair space, feature explanations, other showings of the same
   film, synopsis, genre, running time, release date, director, cast,
-  distributor, the trailer and a **Buy tickets** button.
+  distributor, a link to the trailer on vuecinemas.nl and a **Buy tickets**
+  button.
 - A live **seat plan** per showing in that dialog: screen, rows and aisles,
   free and taken seats, wheelchair spaces, seat types with their price
   (Lux, D-BOX, Ultra Lux and so on) and how full the showing is. It is
@@ -306,6 +307,9 @@ supported in this version.
 - Prices are Vue's displayed standard price; discounts, Unlimited and seat
   types are not included.
 - No seat availability beyond sold out and wheelchair space.
+- Trailers play on vuecinemas.nl, not inside Home Assistant: Vue's video
+  host only allows its own site to embed them. The dialog links to the film
+  page instead.
 - Tickets are bought on vuecinemas.nl; the integration cannot book or
   reserve seats. The seat plan is read-only and shows the state at the moment
   you open it.

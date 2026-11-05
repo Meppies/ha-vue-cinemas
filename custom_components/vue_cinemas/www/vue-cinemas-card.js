@@ -2,7 +2,7 @@
  * vue-cinemas-card: the programme of a Vue Cinemas watchlist, in time order,
  * with a detail dialog per showing. Served by the vue_cinemas integration.
  */
-const CARD_VERSION = "1.1.3";
+const CARD_VERSION = "1.1.4";
 
 const I18N = {
   nl: {
@@ -18,6 +18,7 @@ const I18N = {
     tickets: "Tickets kopen",
     filmPage: "Filmpagina",
     trailer: "Trailer",
+    trailerTitle: "Trailer en filmpagina op vuecinemas.nl",
     close: "Sluiten",
     director: "Regie",
     cast: "Cast",
@@ -63,6 +64,7 @@ const I18N = {
     tickets: "Buy tickets",
     filmPage: "Film page",
     trailer: "Trailer",
+    trailerTitle: "Trailer and film page on vuecinemas.nl",
     close: "Close",
     director: "Director",
     cast: "Cast",
@@ -482,7 +484,7 @@ class VueCinemasCard extends HTMLElement {
 
   // ---------- dialog ----------
   _openDialog(filmId, sessionId) {
-    this._dialog = { filmId, sessionId, trailer: false, opener: this.shadowRoot.activeElement };
+    this._dialog = { filmId, sessionId, opener: this.shadowRoot.activeElement };
     window.addEventListener("keydown", this._onKey);
     this._renderDialog();
   }
@@ -666,11 +668,6 @@ class VueCinemasCard extends HTMLElement {
           .join("")}</div></section>`
       : "";
 
-    const trailerBlock =
-      trailer && this._dialog.trailer
-        ? `<div class="trailer"><iframe src="${esc(trailer)}?autoplay=true" title="${esc(t.trailer)}" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`
-        : "";
-
     host.innerHTML = `
       <div class="backdrop" data-close></div>
       <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="vc-title">
@@ -685,7 +682,6 @@ class VueCinemasCard extends HTMLElement {
               <div class="ratings">${this._rating(film.certificate, "large")}${descriptors}</div>
             </div>
           </div>
-          ${trailerBlock}
           ${showingBlock}
           ${otherBlock}
           <section>
@@ -694,8 +690,9 @@ class VueCinemasCard extends HTMLElement {
             <dl class="facts">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
           </section>
           <div class="actions">
-            ${trailer && !this._dialog.trailer ? `<button class="button" data-trailer><ha-icon icon="mdi:play"></ha-icon>${esc(t.trailer)}</button>` : ""}
-            ${filmUrl ? `<a class="button" href="${esc(filmUrl)}" target="_blank" rel="noopener noreferrer"><ha-icon icon="mdi:open-in-new"></ha-icon>${esc(t.filmPage)}</a>` : ""}
+            ${filmUrl
+              ? `<a class="button" href="${esc(filmUrl)}" target="_blank" rel="noopener noreferrer" title="${esc(trailer ? t.trailerTitle : t.filmPage)}"><ha-icon icon="${trailer ? "mdi:play-circle-outline" : "mdi:open-in-new"}"></ha-icon>${esc(trailer ? t.trailerTitle : t.filmPage)}</a>`
+              : ""}
           </div>
         </div>
       </div>`;
@@ -708,7 +705,7 @@ class VueCinemasCard extends HTMLElement {
     );
     host.querySelectorAll("[data-other]").forEach((el) =>
       el.addEventListener("click", () => {
-        this._dialog = { ...this._dialog, sessionId: el.dataset.other, trailer: false, seats: null };
+        this._dialog = { ...this._dialog, sessionId: el.dataset.other, seats: null };
         this._renderDialog();
       }),
     );
@@ -719,10 +716,6 @@ class VueCinemasCard extends HTMLElement {
       } else {
         this._loadSeats(this._dialog.sessionId);
       }
-    });
-    host.querySelector("[data-trailer]")?.addEventListener("click", () => {
-      this._dialog = { ...this._dialog, trailer: true };
-      this._renderDialog();
     });
     // Keep focus on the seat plan toggle once it has been used.
     (("seats" in this._dialog && host.querySelector("[data-seats]")) || host.querySelector(".close"))?.focus();
@@ -845,8 +838,6 @@ const STYLE = `
   .seats-msg { margin-top: 12px; color: var(--secondary-text-color); }
   .seats-msg.warn { color: var(--error-color); }
   .button ha-icon { --mdc-icon-size: 18px; }
-  .trailer { margin-top: 16px; position: relative; padding-top: 56.25%; border-radius: 12px; overflow: hidden; background: #000; }
-  .trailer iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 `;
 
 class VueCinemasCardEditor extends HTMLElement {

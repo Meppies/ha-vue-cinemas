@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.4 — 2026-11-05
+
+- The trailer button opens the film page on vuecinemas.nl in a new tab
+  instead of playing the trailer in the dialog. Vue's video host only allows
+  vuecinemas.nl to embed its trailers, so the embedded player showed "This
+  video has not been configured to be allowed on this domain".
+
 ## 1.1.3 — 2026-11-05
 
 - The detail dialog no longer repeats the synopsis. Vue's long synopsis is

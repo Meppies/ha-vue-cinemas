@@ -1,16 +1,28 @@
 {
   "domain": "vue_cinemas",
   "name": "Vue Cinemas",
-  "after_dependencies": ["frontend"],
-  "codeowners": ["@Meppies"],
+  "after_dependencies": [
+    "frontend"
+  ],
+  "categories": [
+    "media_entertainment",
+    "local_services"
+  ],
+  "codeowners": [
+    "@Meppies"
+  ],
   "config_flow": true,
-  "dependencies": ["http"],
+  "dependencies": [
+    "http"
+  ],
   "documentation": "https://github.com/Meppies/ha-vue-cinemas",
   "integration_type": "service",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/Meppies/ha-vue-cinemas/issues",
-  "loggers": ["custom_components.vue_cinemas"],
+  "loggers": [
+    "custom_components.vue_cinemas"
+  ],
   "quality_scale": "platinum",
   "requirements": [],
-  "version": "1.1.0"
+  "version": "1.1.1"
 }

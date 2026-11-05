@@ -56,12 +56,30 @@ showing.
 
 ## Installation
 
-### HACS (recommended)
+### Marketplace (Home Assistant 2026.11 and later)
+
+Since Home Assistant 2026.11, HACS is built in as the **Marketplace**. Until
+this integration is in the Marketplace catalog, add it as a custom
+repository:
+
+1. Go to **Settings → Marketplace**, open the menu (three dots) and choose
+   **Custom repositories**. Adding a custom repository needs the GitHub
+   connection the Marketplace asks for.
+2. Add `https://github.com/Meppies/ha-vue-cinemas` with type **Integration**.
+3. Open **Vue Cinemas** in the Marketplace and install it. A first install
+   needs no restart.
+4. Add the integration:
+
+   [![Open your Home Assistant instance and start setting up Vue Cinemas.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=vue_cinemas)
+
+Updates need a restart; the Marketplace raises a repair with a restart
+button when one is due.
+
+### HACS (Home Assistant before 2026.11)
 
 1. In HACS, open the menu (three dots) and choose **Custom repositories**.
 2. Add `https://github.com/Meppies/ha-vue-cinemas` with type **Integration**.
-3. Search for **Vue Cinemas** in HACS and download it.
-4. Restart Home Assistant.
+3. Search for **Vue Cinemas** in HACS, download it and restart Home Assistant.
 
 ### Manual
 
@@ -70,7 +88,7 @@ showing.
 2. Restart Home Assistant.
 
 The card is served and registered by the integration itself. There is no
-separate Lovelace resource to add.
+separate dashboard resource to add.
 
 ## Configuration
 
@@ -278,8 +296,9 @@ supported in this version.
 2. Go to **Settings → Devices & services → Vue Cinemas**, open each cinema's
    menu and choose **Delete**. This removes its watchlists, devices and
    entities.
-3. In HACS, open **Vue Cinemas** and choose **Remove**, or delete
-   `custom_components/vue_cinemas` for a manual install.
+3. In **Settings → Marketplace** (or HACS before 2026.11), open
+   **Vue Cinemas** and remove it, or delete `custom_components/vue_cinemas`
+   for a manual install.
 4. Restart Home Assistant.
 
 ## Development

@@ -2,7 +2,7 @@
  * vue-cinemas-card: the programme of a Vue Cinemas watchlist, in time order,
  * with a detail dialog per showing. Served by the vue_cinemas integration.
  */
-const CARD_VERSION = "1.1.0";
+const CARD_VERSION = "1.1.1";
 
 const I18N = {
   nl: {

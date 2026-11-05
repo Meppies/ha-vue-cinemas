@@ -212,3 +212,108 @@ class FilmDetails:
             trailer_url=str(raw.get("trailer_url") or ""),
             fetched=datetime.fromisoformat(fetched) if fetched else None,
         )
+
+
+# Vue seat status codes, read from the seat icons the site pairs with them.
+SEAT_FREE = "free"
+SEAT_TAKEN = "taken"
+SEAT_WHEELCHAIR = "wheelchair"
+SEAT_COMPANION = "companion"
+SEAT_UNAVAILABLE = "unavailable"
+_SEAT_STATUS = {
+    0: SEAT_FREE,
+    1: SEAT_TAKEN,
+    3: SEAT_WHEELCHAIR,
+    7: SEAT_COMPANION,
+    9: SEAT_TAKEN,
+    11: SEAT_TAKEN,
+}
+
+
+@dataclass(frozen=True, slots=True)
+class Seat:
+    """One seat in the plan."""
+
+    name: str
+    column: int
+    status: str
+    area: str
+
+
+@dataclass(frozen=True, slots=True)
+class SeatRow:
+    """A row of seats; an empty label marks an aisle."""
+
+    label: str
+    index: int
+    seats: tuple[Seat, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class SeatArea:
+    """A seat category such as Lux or D-BOX."""
+
+    code: str
+    name: str
+    description: str
+    price_cents: int
+    color: str
+
+
+@dataclass(frozen=True, slots=True)
+class SeatMap:
+    """The seat plan of one session, with live occupancy."""
+
+    screen: str
+    occupancy: float
+    columns: int
+    rows: tuple[SeatRow, ...]
+    areas: tuple[SeatArea, ...]
+
+    @classmethod
+    def from_api(cls, raw: dict[str, Any]) -> SeatMap:
+        """Build from a `/booking/Session/{cinema}/{session}/seats` result."""
+        rows: list[SeatRow] = []
+        width = 0
+        for row in raw.get("seatRows") or []:
+            seats = tuple(
+                Seat(
+                    name=_str(cell.get("name")),
+                    column=int(cell.get("columnIndex") or 0),
+                    status=_SEAT_STATUS.get(
+                        int(cell.get("seatStatus") or 0), SEAT_UNAVAILABLE
+                    ),
+                    area=_str(cell.get("areaCategoryCode")),
+                )
+                for cell in row.get("columns") or []
+                if cell
+            )
+            width = max(width, len(row.get("columns") or []))
+            rows.append(
+                SeatRow(
+                    label=_str(row.get("rowLabel")),
+                    index=int(row.get("rowIndex") or 0),
+                    seats=tuple(sorted(seats, key=lambda s: s.column)),
+                )
+            )
+        areas = tuple(
+            SeatArea(
+                code=_str(area.get("areaCategoryCode")),
+                name=_clean(area.get("areaName")),
+                description=_clean(area.get("areaDescription")),
+                price_cents=int(area.get("areaMainPriceInCents") or 0),
+                color=_str(area.get("areaColor")),
+            )
+            for area in raw.get("areaCategories") or []
+        )
+        return cls(
+            screen=_str((raw.get("seatingData") or {}).get("screenLabel")),
+            occupancy=float(raw.get("sessionOccupancy") or 0.0),
+            columns=width,
+            rows=tuple(sorted(rows, key=lambda r: r.index)),
+            areas=areas,
+        )
+
+    def as_dict(self) -> dict[str, Any]:
+        """Serialise for the card."""
+        return asdict(self)

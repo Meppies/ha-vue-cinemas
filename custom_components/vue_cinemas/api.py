@@ -24,7 +24,7 @@ from typing import Any
 import aiohttp
 
 from .const import API_URL, BASE_URL, REQUEST_TIMEOUT
-from .models import Cinema, Film, FilmDetails
+from .models import Cinema, Film, FilmDetails, SeatMap
 
 _NEXT_DATA = re.compile(
     r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S
@@ -166,6 +166,13 @@ class VueCinemasClient:
         if not isinstance(result, list):
             raise VueCinemasResponseError("Film list missing")
         return [Film.from_api(item) for item in result]
+
+    async def async_get_seats(self, cinema_id: str, session_id: str) -> SeatMap:
+        """Return the live seat plan of one session."""
+        result = await self._get_json(f"/booking/Session/{cinema_id}/{session_id}/seats")
+        if not isinstance(result, dict) or not result.get("seatRows"):
+            raise VueCinemasResponseError(f"No seat plan for session {session_id}")
+        return SeatMap.from_api(result)
 
     async def async_get_film_details(self, slug: str) -> FilmDetails:
         """Scrape genres, long synopsis and trailer from the film page."""

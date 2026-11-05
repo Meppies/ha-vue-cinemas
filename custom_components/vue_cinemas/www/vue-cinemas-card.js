@@ -2,7 +2,7 @@
  * vue-cinemas-card: the programme of a Vue Cinemas watchlist, in time order,
  * with a detail dialog per showing. Served by the vue_cinemas integration.
  */
-const CARD_VERSION = "1.0.0";
+const CARD_VERSION = "1.1.0";
 
 const I18N = {
   nl: {
@@ -36,6 +36,19 @@ const I18N = {
     more: (n) => `+${n} meer`,
     updated: "Bijgewerkt",
     rating: "Kijkwijzer",
+    seatPlan: "Zaalindeling",
+    hideSeatPlan: "Zaalindeling verbergen",
+    screenLabel: "Scherm",
+    occupied: (p) => `${p}% bezet`,
+    seatFree: "Vrij",
+    seatTaken: "Bezet",
+    seatWheelchair: "Rolstoelplek",
+    seatCompanion: "Begeleider",
+    seatUnavailable: "Niet beschikbaar",
+    row: "Rij",
+    seat: "stoel",
+    seatsLoading: "Zaalindeling laden…",
+    seatsError: "Zaalindeling niet beschikbaar",
   },
   en: {
     today: "Today",
@@ -68,6 +81,19 @@ const I18N = {
     more: (n) => `+${n} more`,
     updated: "Updated",
     rating: "Age rating",
+    seatPlan: "Seat plan",
+    hideSeatPlan: "Hide seat plan",
+    screenLabel: "Screen",
+    occupied: (p) => `${p}% taken`,
+    seatFree: "Free",
+    seatTaken: "Taken",
+    seatWheelchair: "Wheelchair space",
+    seatCompanion: "Companion",
+    seatUnavailable: "Unavailable",
+    row: "Row",
+    seat: "seat",
+    seatsLoading: "Loading seat plan…",
+    seatsError: "Seat plan unavailable",
   },
 };
 
@@ -458,6 +484,78 @@ class VueCinemasCard extends HTMLElement {
     }
   }
 
+  async _loadSeats(sessionId) {
+    this._dialog = { ...this._dialog, seats: { loading: true } };
+    this._renderDialog();
+    try {
+      const plan = await this._hass.callWS({
+        type: "vue_cinemas/seats",
+        entity_id: this._config.entity,
+        session_id: sessionId,
+      });
+      if (this._dialog?.sessionId !== sessionId) return;
+      this._dialog = { ...this._dialog, seats: { plan } };
+    } catch (err) {
+      if (this._dialog?.sessionId !== sessionId) return;
+      this._dialog = { ...this._dialog, seats: { error: err?.message || String(err) } };
+    }
+    this._renderDialog();
+  }
+
+  _renderSeats(state) {
+    const t = this._t;
+    if (state.loading) return `<div class="seats-msg">${esc(t.seatsLoading)}</div>`;
+    if (state.error) return `<div class="seats-msg warn">${esc(t.seatsError)}</div>`;
+    const plan = state.plan;
+    const areas = Object.fromEntries((plan.areas || []).map((a) => [a.code, a]));
+    const cols = Math.max(1, plan.columns || 1);
+    const statusLabel = {
+      free: t.seatFree,
+      taken: t.seatTaken,
+      wheelchair: t.seatWheelchair,
+      companion: t.seatCompanion,
+      unavailable: t.seatUnavailable,
+    };
+    const rows = (plan.rows || [])
+      .map((row) => {
+        if (!row.seats.length) return `<div class="seat-aisle" aria-hidden="true"></div>`;
+        const seats = row.seats
+          .map((seat) => {
+            const area = areas[seat.area];
+            const color = seat.status === "free" && area?.color ? ` style="--seat:${esc(area.color)};grid-column:${seat.column + 1}"` : ` style="grid-column:${seat.column + 1}"`;
+            const title = `${t.row} ${row.label}, ${t.seat} ${seat.name}${area ? ` · ${area.name}` : ""} · ${statusLabel[seat.status] || seat.status}`;
+            const glyph = seat.status === "wheelchair" ? "♿" : seat.status === "taken" ? "✕" : "";
+            return `<span class="seat ${esc(seat.status)}"${color} title="${esc(title)}" aria-label="${esc(title)}">${glyph}</span>`;
+          })
+          .join("");
+        return `<div class="seat-row"><span class="row-label">${esc(row.label)}</span><div class="seat-grid" style="grid-template-columns:repeat(${cols}, minmax(0, 1fr))">${seats}</div><span class="row-label">${esc(row.label)}</span></div>`;
+      })
+      .join("");
+    const used = new Set((plan.rows || []).flatMap((r) => r.seats.map((s) => s.area)));
+    const money = (cents) =>
+      new Intl.NumberFormat(this._locale(), { style: "currency", currency: "EUR" }).format(cents / 100);
+    const areaLegend = (plan.areas || [])
+      .filter((a) => used.has(a.code))
+      .map(
+        (a) =>
+          `<li title="${esc(a.description)}"><span class="seat free" style="--seat:${esc(a.color || "var(--primary-color)")}"></span>${esc(a.name)}${a.price_cents ? ` · ${esc(money(a.price_cents))}` : ""}</li>`,
+      )
+      .join("");
+    const pct = Math.round((plan.occupancy || 0) * 100);
+    return `
+      <div class="seatplan" role="img" aria-label="${esc(`${t.seatPlan} ${plan.screen}, ${t.occupied(pct)}`)}">
+        <div class="screen-bar">${esc(t.screenLabel)}</div>
+        ${rows}
+      </div>
+      <div class="occupancy"><div class="bar"><span style="width:${pct}%"></span></div><span>${esc(t.occupied(pct))}</span></div>
+      <ul class="legend">
+        <li><span class="seat free"></span>${esc(t.seatFree)}</li>
+        <li><span class="seat taken">✕</span>${esc(t.seatTaken)}</li>
+        <li><span class="seat wheelchair">♿</span>${esc(t.seatWheelchair)}</li>
+        ${areaLegend}
+      </ul>`;
+  }
+
   _renderDialog() {
     const host = this.shadowRoot.querySelector(".dialog-host");
     const p = this._programme;
@@ -528,9 +626,15 @@ class VueCinemasCard extends HTMLElement {
           </div>
           <div class="chips">${this._chips(showing.attributes)}</div>
           ${attrDescs ? `<ul class="attr-list">${attrDescs}</ul>` : ""}
+          ${this._dialog.seats ? this._renderSeats(this._dialog.seats) : ""}
+          <div class="showing-actions">
+          ${new Date(showing.end).getTime() > Date.now()
+            ? `<button class="button" data-seats><ha-icon icon="mdi:seat-outline"></ha-icon>${esc(this._dialog.seats ? t.hideSeatPlan : t.seatPlan)}</button>`
+            : ""}
           ${booking && !showing.sold_out && showing.booking_available
             ? `<a class="button primary" href="${esc(booking)}" target="_blank" rel="noopener noreferrer"><ha-icon icon="mdi:ticket-confirmation"></ha-icon>${esc(t.tickets)}</a>`
             : ""}
+          </div>
         </section>`;
     }
 
@@ -552,7 +656,7 @@ class VueCinemasCard extends HTMLElement {
       <div class="backdrop" data-close></div>
       <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="vc-title">
         <button class="close" data-close aria-label="${esc(t.close)}"><ha-icon icon="mdi:close"></ha-icon></button>
-        ${panel ? `<div class="panel" style="background-image:url('${esc(panel)}')"></div>` : ""}
+        ${panel ? `<div class="panel"><img src="${esc(panel)}" alt=""></div>` : ""}
         <div class="dialog-body">
           <div class="head">
             ${poster ? `<img class="big-poster" src="${esc(poster)}" alt="">` : ""}
@@ -577,20 +681,32 @@ class VueCinemasCard extends HTMLElement {
         </div>
       </div>`;
 
+    // Vue links some backdrops to its 404 page; drop the banner if it fails.
+    const panelImg = host.querySelector(".panel img");
+    panelImg?.addEventListener("error", () => panelImg.parentElement?.remove());
     host.querySelectorAll("[data-close]").forEach((el) =>
       el.addEventListener("click", () => this._closeDialog()),
     );
     host.querySelectorAll("[data-other]").forEach((el) =>
       el.addEventListener("click", () => {
-        this._dialog = { ...this._dialog, sessionId: el.dataset.other, trailer: false };
+        this._dialog = { ...this._dialog, sessionId: el.dataset.other, trailer: false, seats: null };
         this._renderDialog();
       }),
     );
+    host.querySelector("[data-seats]")?.addEventListener("click", () => {
+      if (this._dialog.seats) {
+        this._dialog = { ...this._dialog, seats: null };
+        this._renderDialog();
+      } else {
+        this._loadSeats(this._dialog.sessionId);
+      }
+    });
     host.querySelector("[data-trailer]")?.addEventListener("click", () => {
       this._dialog = { ...this._dialog, trailer: true };
       this._renderDialog();
     });
-    host.querySelector(".close")?.focus();
+    // Keep focus on the seat plan toggle once it has been used.
+    (("seats" in this._dialog && host.querySelector("[data-seats]")) || host.querySelector(".close"))?.focus();
   }
 }
 
@@ -649,10 +765,12 @@ const STYLE = `
     background: var(--ha-card-background, var(--card-background-color, #fff)); color: var(--primary-text-color);
     border-radius: var(--ha-dialog-border-radius, 24px); box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4); line-height: 1.55; }
   @media (max-width: 600px) { .dialog { top: auto; bottom: 0; transform: translate(-50%, 0); border-radius: 20px 20px 0 0; max-height: 92vh; } }
+  .dialog-body:first-child, .close + .dialog-body { padding-top: 56px; }
   .close { position: absolute; top: 10px; right: 10px; z-index: 2; border: none; border-radius: 50%; width: 40px; height: 40px;
     background: rgba(0, 0, 0, 0.5); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .close:focus-visible { outline: 2px solid #fff; }
-  .panel { height: 180px; background-size: cover; background-position: center 30%; }
+  .panel { height: 180px; overflow: hidden; background: var(--secondary-background-color); }
+  .panel img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
   .dialog-body { padding: 16px 20px 20px; }
   .head { display: flex; gap: 16px; align-items: flex-end; }
   .panel + .dialog-body .head { margin-top: -72px; }
@@ -683,7 +801,30 @@ const STYLE = `
   .button { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-weight: 600; font-size: 0.95rem;
     padding: 8px 16px; border-radius: 999px; border: 1px solid var(--primary-color); color: var(--primary-color);
     background: transparent; cursor: pointer; text-decoration: none; }
-  .button.primary { background: var(--primary-color); color: var(--text-primary-color, #fff); margin-top: 10px; }
+  .button.primary { background: var(--primary-color); color: var(--text-primary-color, #fff); }
+  .showing-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .seatplan { margin-top: 14px; padding: 12px 8px; border-radius: 12px; background: var(--card-background-color, #fff); }
+  .screen-bar { margin: 0 auto 14px; width: 80%; text-align: center; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--secondary-text-color); border-top: 4px solid var(--secondary-text-color); border-radius: 50% 50% 0 0 / 12px 12px 0 0; padding-top: 4px; }
+  .seat-row { display: grid; grid-template-columns: 22px 1fr 22px; align-items: center; gap: 4px; margin: 3px 0; }
+  .row-label { font-size: 0.75rem; color: var(--secondary-text-color); text-align: center; font-variant-numeric: tabular-nums; }
+  .seat-grid { display: grid; gap: 3px; }
+  .seat-aisle { height: 10px; }
+  .seat { display: inline-flex; align-items: center; justify-content: center; aspect-ratio: 1; max-width: 24px; width: 100%;
+    border-radius: 4px 4px 2px 2px; box-sizing: border-box; font-size: 0.65rem; line-height: 1; }
+  .seat.free { border: 2px solid var(--seat, var(--primary-color)); background: transparent; }
+  .seat.taken { background: var(--primary-text-color); color: var(--card-background-color, #fff); font-weight: 700; opacity: 0.55; }
+  .seat.wheelchair { border: 2px solid var(--primary-text-color); font-size: 0.75rem; }
+  .seat.companion { border: 2px dashed var(--secondary-text-color); }
+  .seat.unavailable { background: var(--divider-color); }
+  .occupancy { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 0.9rem; }
+  .occupancy .bar { flex: 1; height: 8px; border-radius: 4px; background: var(--divider-color); overflow: hidden; }
+  .occupancy .bar span { display: block; height: 100%; background: var(--primary-color); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0 0; padding: 0; font-size: 0.85rem; }
+  .legend li { display: inline-flex; align-items: center; gap: 6px; }
+  .legend .seat { width: 18px; }
+  .seats-msg { margin-top: 12px; color: var(--secondary-text-color); }
+  .seats-msg.warn { color: var(--error-color); }
   .button ha-icon { --mdc-icon-size: 18px; }
   .trailer { margin-top: 16px; position: relative; padding-top: 56.25%; border-radius: 12px; overflow: hidden; background: #000; }
   .trailer iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }

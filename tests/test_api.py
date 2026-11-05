@@ -25,6 +25,7 @@ from custom_components.vue_cinemas.models import Certificate, FilmDetails
 from .conftest import (
     CINEMAS_URL,
     FILMS_URL,
+    SEATS_URL,
     TOKEN_URL,
     film_page,
     load,
@@ -209,3 +210,36 @@ async def test_opaque_token(
     assert token_expiry("not-a-jwt") is None
     await VueCinemasClient(async_get_clientsession(hass)).async_get_cinemas()
     assert aioclient_mock.mock_calls[1][3]["Authorization"] == "Bearer not-a-jwt"
+
+
+async def test_seats(hass: HomeAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+    """The seat plan parses rows, aisles, statuses and areas."""
+    mock_token(aioclient_mock)
+    aioclient_mock.get(SEATS_URL, json=load("seats.json"))
+    plan = await VueCinemasClient(async_get_clientsession(hass)).async_get_seats(
+        "1001", "13210"
+    )
+    assert plan.screen == "Zaal 1"
+    assert plan.occupancy == 0.25
+    assert plan.columns == 5
+    assert [r.label for r in plan.rows] == ["1", "2", "", "3"]
+    assert plan.rows[2].seats == ()
+    assert [s.status for s in plan.rows[0].seats] == ["free", "free", "free", "taken", "taken"]
+    assert [s.status for s in plan.rows[3].seats] == [
+        "unavailable", "taken", "companion", "wheelchair"
+    ]
+    assert plan.rows[0].seats[0].column == 0
+    assert plan.areas[1].name == "Ultra Lux"
+    assert plan.areas[1].description == "Onze grootste stoel & wijnkoeler"
+    assert plan.areas[1].price_cents == 1700
+    assert plan.as_dict()["rows"][0]["seats"][0]["name"] == "1-5"
+
+
+async def test_seats_missing(hass: HomeAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+    """A session without a plan raises."""
+    mock_token(aioclient_mock)
+    aioclient_mock.get(SEATS_URL, json={"result": {"seatRows": []}, "responseCode": 0})
+    with pytest.raises(VueCinemasResponseError):
+        await VueCinemasClient(async_get_clientsession(hass)).async_get_seats(
+            "1001", "13210"
+        )

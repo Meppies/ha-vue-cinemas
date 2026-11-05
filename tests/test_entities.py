@@ -26,7 +26,9 @@ from pytest_homeassistant_custom_component.typing import (
 from custom_components.vue_cinemas.const import DOMAIN, SERVICE_GET_SHOWINGS
 from custom_components.vue_cinemas.programme import get_programme
 
-from .conftest import subentry_id
+from pytest_homeassistant_custom_component.test_util.aiohttp import AiohttpClientMocker
+
+from .conftest import SEATS_URL, load, subentry_id
 
 NEXT = "sensor.vue_amersfoort_alles_next_showing"
 COUNT = "sensor.vue_amersfoort_alles_showings"
@@ -195,3 +197,35 @@ async def test_diagnostics(
     assert diag["programme"]["genres"] == ["Horror", "Thriller"]
     assert diag["coordinator"]["last_exception"] is None
 
+
+
+async def test_websocket_seats(
+    hass: HomeAssistant,
+    setup_entry: MockConfigEntry,
+    hass_ws_client: WebSocketGenerator,
+    aioclient_mock: AiohttpClientMocker,
+) -> None:
+    """The card fetches a seat plan on demand."""
+    aioclient_mock.get(SEATS_URL, json=load("seats.json"))
+    client = await hass_ws_client(hass)
+    await client.send_json_auto_id(
+        {"type": "vue_cinemas/seats", "entity_id": COUNT, "session_id": "13210"}
+    )
+    msg = await client.receive_json()
+    assert msg["success"]
+    assert msg["result"]["screen"] == "Zaal 1"
+    assert len(msg["result"]["rows"]) == 4
+
+    await client.send_json_auto_id(
+        {"type": "vue_cinemas/seats", "entity_id": "sensor.nope", "session_id": "1"}
+    )
+    msg = await client.receive_json()
+    assert msg["error"]["code"] == "not_found"
+
+    aioclient_mock.clear_requests()
+    aioclient_mock.get(SEATS_URL, status=500, text="down")
+    await client.send_json_auto_id(
+        {"type": "vue_cinemas/seats", "entity_id": COUNT, "session_id": "13210"}
+    )
+    msg = await client.receive_json()
+    assert msg["error"]["code"] == "unavailable"

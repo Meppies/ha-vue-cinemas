@@ -48,6 +48,10 @@ showing.
   price, wheelchair space, feature explanations, other showings of the same
   film, synopsis, genre, running time, release date, director, cast,
   distributor, the trailer and a **Buy tickets** button.
+- A live **seat plan** per showing in that dialog: screen, rows and aisles,
+  free and taken seats, wheelchair spaces, seat types with their price
+  (Lux, D-BOX, Ultra Lux and so on) and how full the showing is. It is
+  fetched only when you open it.
 - Dutch and English, following your Home Assistant language.
 
 ## Installation
@@ -98,7 +102,7 @@ watchlist's menu (three dots) and choose **Reconfigure**.
 | Features | Only showings with at least one of these features. | all |
 | Maximum age rating | Hide films with a higher Kijkwijzer age. Films not yet rated (*tbc*) are always shown. | No limit |
 | Hide sold-out showings | Leave sold-out showings out. | off |
-| List coming-soon films | Also list announced films without showings yet. | on |
+| List coming-soon films | Also list announced films without showings yet, releasing within 90 days. | on |
 
 Screens, genres and features are offered from what the cinema actually has in
 its programme at that moment. A value you saved earlier stays selectable even
@@ -206,13 +210,16 @@ response_variable: programme
 ## How data is updated
 
 - Every **30 minutes** the integration fetches the full programme of each
-  cinema in one request: all films with all their showings. Watchlists are
+  cinema in one request: all films with all their showings. The API needs an
+  anonymous guest token, which the integration requests from Vue and renews
+  about every twelve hours; no account is involved. Watchlists are
   filters over that data, so adding watchlists adds no requests.
 - **Genres, the long synopsis and the trailer** are not in that data. They are
   read once per film from the film's page on vuecinemas.nl and kept for
   **7 days**, shared by all cinemas and kept across restarts. On the first
-  start that means one page per film (a few hundred kilobytes in total),
-  three at a time.
+  start that means one page per film, three at a time: for a large cinema
+  about 125 pages of roughly 80 kB (about 10 MB, a few seconds). After that
+  only new films are fetched, plus each film again once a week.
 - If an update fails, entities become unavailable and the integration retries
   on the next interval. The card keeps the last data and says it is out of
   date.
@@ -238,7 +245,11 @@ supported in this version.
 - Prices are Vue's displayed standard price; discounts, Unlimited and seat
   types are not included.
 - No seat availability beyond sold out and wheelchair space.
-- Tickets are bought on vuecinemas.nl; the integration cannot book.
+- Tickets are bought on vuecinemas.nl; the integration cannot book or
+  reserve seats. The seat plan is read-only and shows the state at the moment
+  you open it.
+- Some film backdrops on vuecinemas.nl link to a missing image; the dialog
+  then shows the poster without a backdrop.
 
 ## Troubleshooting
 

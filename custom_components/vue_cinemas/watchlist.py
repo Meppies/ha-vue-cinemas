@@ -19,6 +19,7 @@ from .const import (
     CONF_MODE,
     CONF_SCREENS,
     DEFAULT_DAYS_AHEAD,
+    MAX_DAYS_AHEAD,
     MODE_NOW_SHOWING,
 )
 from .coordinator import CinemaData
@@ -140,13 +141,20 @@ def select_showings(
 def select_coming_soon(
     data: CinemaData, watchlist: Watchlist, now: datetime
 ) -> list[Film]:
-    """Return announced films without sessions, by release date."""
+    """Return announced films without sessions, by release date.
+
+    Only films with a known release date within the next 90 days are listed;
+    Vue announces films up to a year ahead.
+    """
     if not watchlist.include_coming_soon:
         return []
+    horizon = now.date() + timedelta(days=MAX_DAYS_AHEAD)
     films = [
         f
         for f in data.films
         if f.is_coming_soon
+        and f.release_date is not None
+        and f.release_date <= horizon
         and certificate_allowed(f.certificate, watchlist.max_certificate)
         and (
             not watchlist.genres
@@ -156,5 +164,5 @@ def select_coming_soon(
     ]
     return sorted(
         films,
-        key=lambda f: (f.release_date or now.date().max, f.title.casefold()),
+        key=lambda f: (f.release_date or horizon, f.title.casefold()),
     )

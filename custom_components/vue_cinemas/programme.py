@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from homeassistant.config_entries import ConfigEntryState
+from homeassistant.config_entries import ConfigEntryState, ConfigSubentry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers import entity_registry as er
@@ -33,10 +33,10 @@ def resolve_entity(hass: HomeAssistant, entity_id: str) -> tuple[str, str]:
     return entry.config_entry_id, entry.config_subentry_id
 
 
-def get_programme(
+def get_watchlist_entry(
     hass: HomeAssistant, entry_id: str, watchlist_id: str
-) -> dict[str, Any]:
-    """Return the serialised programme of one watchlist."""
+) -> tuple[VueCinemasConfigEntry, ConfigSubentry]:
+    """Return a loaded cinema entry and one of its watchlists, or raise."""
     entry: VueCinemasConfigEntry | None = hass.config_entries.async_get_entry(entry_id)
     if entry is None or entry.domain != DOMAIN:
         raise ServiceValidationError(
@@ -57,6 +57,14 @@ def get_programme(
             translation_key="unknown_watchlist",
             translation_placeholders={"watchlist_id": watchlist_id},
         )
+    return entry, subentry
+
+
+def get_programme(
+    hass: HomeAssistant, entry_id: str, watchlist_id: str
+) -> dict[str, Any]:
+    """Return the serialised programme of one watchlist."""
+    entry, subentry = get_watchlist_entry(hass, entry_id, watchlist_id)
     coordinator = entry.runtime_data
     data = coordinator.data
     watchlist = Watchlist.from_data(subentry.data)

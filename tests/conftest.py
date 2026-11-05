@@ -29,6 +29,7 @@ FIXTURES = Path(__file__).parent / "fixtures"
 TOKEN_URL = f"{API_URL}/auth/token"
 CINEMAS_URL = f"{API_URL}/showings/cinemas"
 FILMS_URL = f"{API_URL}/showings/cinemas/1001/films"
+SEATS_URL = f"{API_URL}/booking/Session/1001/13210/seats"
 SLUGS = [
     "clayface",
     "wen-er-maar-aan",

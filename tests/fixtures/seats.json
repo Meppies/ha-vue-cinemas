@@ -1,0 +1,218 @@
+{
+ "result": {
+  "seatingData": {
+   "screenLabel": "Zaal 1"
+  },
+  "seatRows": [
+   {
+    "rowLabel": "3",
+    "rowIndex": 3,
+    "columns": [
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 4,
+      "rowIndex": 3,
+      "name": "4-1",
+      "seatStatus": 3,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 3,
+      "rowIndex": 3,
+      "name": "4-2",
+      "seatStatus": 7,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     null,
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 1,
+      "rowIndex": 3,
+      "name": "4-4",
+      "seatStatus": 9,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 0,
+      "rowIndex": 3,
+      "name": "4-5",
+      "seatStatus": 4,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     }
+    ]
+   },
+   {
+    "rowLabel": "",
+    "rowIndex": 2,
+    "columns": [
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   },
+   {
+    "rowLabel": "2",
+    "rowIndex": 1,
+    "columns": [
+     {
+      "areaCategoryCode": "0000000007",
+      "areaNumber": 1,
+      "columnIndex": 4,
+      "rowIndex": 1,
+      "name": "2-1",
+      "seatStatus": 0,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000007",
+      "areaNumber": 1,
+      "columnIndex": 3,
+      "rowIndex": 1,
+      "name": "2-2",
+      "seatStatus": 0,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000007",
+      "areaNumber": 1,
+      "columnIndex": 2,
+      "rowIndex": 1,
+      "name": "2-3",
+      "seatStatus": 0,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000007",
+      "areaNumber": 1,
+      "columnIndex": 1,
+      "rowIndex": 1,
+      "name": "2-4",
+      "seatStatus": 0,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000007",
+      "areaNumber": 1,
+      "columnIndex": 0,
+      "rowIndex": 1,
+      "name": "2-5",
+      "seatStatus": 0,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     }
+    ]
+   },
+   {
+    "rowLabel": "1",
+    "rowIndex": 0,
+    "columns": [
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 4,
+      "rowIndex": 0,
+      "name": "1-1",
+      "seatStatus": 1,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 3,
+      "rowIndex": 0,
+      "name": "1-2",
+      "seatStatus": 1,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 2,
+      "rowIndex": 0,
+      "name": "1-3",
+      "seatStatus": 0,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 1,
+      "rowIndex": 0,
+      "name": "1-4",
+      "seatStatus": 0,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     },
+     {
+      "areaCategoryCode": "0000000001",
+      "areaNumber": 1,
+      "columnIndex": 0,
+      "rowIndex": 0,
+      "name": "1-5",
+      "seatStatus": 0,
+      "seatsInGroup": null,
+      "sofaSeatCount": 0
+     }
+    ]
+   }
+  ],
+  "areaCategories": [
+   {
+    "areaCategoryCode": "0000000001",
+    "areaColor": "#0F8A4B",
+    "areaDescription": "Comfortabele stoel",
+    "areaHopk": "x",
+    "areaMainPriceInCents": 1200,
+    "areaName": "Lux",
+    "areaOfferBackgroundImage": null,
+    "areaPrices": [],
+    "isSofaSeatDisabled": true,
+    "isSoldOut": false,
+    "largeSeats": false,
+    "priority": 50,
+    "seatIcons": []
+   },
+   {
+    "areaCategoryCode": "0000000007",
+    "areaColor": "#283584",
+    "areaDescription": "Onze grootste stoel &amp; wijnkoeler",
+    "areaHopk": "y",
+    "areaMainPriceInCents": 1700,
+    "areaName": "Ultra Lux",
+    "areaOfferBackgroundImage": null,
+    "areaPrices": [],
+    "isSofaSeatDisabled": true,
+    "isSoldOut": false,
+    "largeSeats": true,
+    "priority": 100,
+    "seatIcons": []
+   }
+  ],
+  "sessionOccupancy": 0.25,
+  "singleSeatRule": {
+   "useSingleSeatRule": true
+  },
+  "ticketTiers": []
+ },
+ "responseCode": 0,
+ "errorMessage": null
+}

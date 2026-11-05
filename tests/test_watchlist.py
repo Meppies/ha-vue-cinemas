@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import dataclasses
 from datetime import datetime
 from typing import Any
 
@@ -101,6 +102,13 @@ def test_coming_soon() -> None:
     assert select_coming_soon(data(), off, now) == []
     horror = Watchlist.from_data({**base, "genres": ["Horror"]})
     assert select_coming_soon(data(), horror, now) == []
+    # Release dates beyond 90 days, or unknown, are left out.
+    later = datetime.fromisoformat("2026-08-01T12:00:00+02:00")
+    assert select_coming_soon(data(), Watchlist.from_data(base), later) == []
+    cinema = data()
+    undated = [dataclasses.replace(f, release_date=None) for f in cinema.films]
+    cinema.films = undated
+    assert select_coming_soon(cinema, Watchlist.from_data(base), now) == []
 
 
 @pytest.mark.parametrize(

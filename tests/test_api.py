@@ -96,11 +96,15 @@ async def test_film_details(hass: HomeAssistant, aioclient_mock: AiohttpClientMo
 
 def test_details_without_optional_fields() -> None:
     """Missing Sitecore fields give empty values, not errors."""
+    marked = parse_film_details({"longSynopsis": {"value": "<p>Een <b>film</b>&nbsp;</p>"}})
+    assert marked.long_synopsis == "Een film"
     details = parse_film_details({"genres": {"targetItems": [{"genreName": {}}]}})
     assert details.genres == []
     assert details.long_synopsis == ""
     assert details.trailer_url == ""
     assert FilmDetails.from_dict({}).fetched is None
+    stored = FilmDetails.from_dict({"long_synopsis": "<br /><span style='x'>Oud</span>"})
+    assert stored.long_synopsis == "Oud"
 
 
 @pytest.mark.parametrize(
@@ -243,3 +247,25 @@ async def test_seats_missing(hass: HomeAssistant, aioclient_mock: AiohttpClientM
         await VueCinemasClient(async_get_clientsession(hass)).async_get_seats(
             "1001", "13210"
         )
+
+
+def test_attribute_description_markup_removed() -> None:
+    """Markup pasted into Vue's CMS is stripped from descriptions."""
+    from custom_components.vue_cinemas.models import Attribute
+
+    attr = Attribute.from_api(
+        {
+            "name": "12 Ultra Lux stoelen per zaal",
+            "description": '<span data-olk-copy-source="MessageBody">12 Ultra Lux '
+            "stoelen per zaal</span>",
+            "attributeType": "Session",
+        }
+    )
+    assert attr.description == "12 Ultra Lux stoelen per zaal"
+    classic = Attribute.from_api(
+        {
+            "name": "Vue Classic",
+            "description": '<span style="color: #fff;">Geniet&nbsp;opnieuw</span>\n<b>nu</b>',
+        }
+    )
+    assert classic.description == "Geniet opnieuw nu"

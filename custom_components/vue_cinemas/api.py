@@ -16,7 +16,6 @@ from __future__ import annotations
 import asyncio
 import base64
 from datetime import UTC, datetime, timedelta
-import html
 import json
 import re
 from typing import Any
@@ -24,7 +23,7 @@ from typing import Any
 import aiohttp
 
 from .const import API_URL, BASE_URL, REQUEST_TIMEOUT
-from .models import Cinema, Film, FilmDetails, SeatMap
+from .models import Cinema, Film, FilmDetails, SeatMap, clean_text
 
 _NEXT_DATA = re.compile(
     r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S
@@ -216,7 +215,7 @@ def parse_film_details(film: dict[str, Any]) -> FilmDetails:
         trailer = f"{hls.split(str(uid))[0]}{uid}/iframe"
     return FilmDetails(
         genres=genres,
-        long_synopsis=html.unescape(str(_value(film, "longSynopsis", "value") or "")),
+        long_synopsis=clean_text(_value(film, "longSynopsis", "value")),
         trailer_url=trailer,
         fetched=datetime.now(UTC),
     )

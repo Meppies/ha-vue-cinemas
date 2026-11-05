@@ -6,6 +6,10 @@
   sometimes a rewrite that already contains the short one; it is now shown
   on its own in that case, and still appended when it continues the short
   one.
+- Raw HTML no longer shows in the dialog. Some of Vue's feature
+  descriptions and long synopses contain markup pasted from an e-mail client
+  (`<span data-olk-copy-source=...>`); all CMS text is now converted to plain
+  text, including synopses already cached by earlier versions.
 - Screenshots in the README, taken on Home Assistant 2026.11 with live data.
 - README: entity IDs follow the language of the installation.
 

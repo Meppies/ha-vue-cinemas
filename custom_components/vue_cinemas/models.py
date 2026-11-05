@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime
 import html
+import re
 from typing import Any
 
 from .const import BASE_URL, FILM_STATUS_COMING_SOON, HIDDEN_ATTRIBUTES
@@ -15,9 +16,18 @@ def _str(value: Any) -> str:
     return str(value).strip() if value is not None else ""
 
 
-def _clean(value: Any) -> str:
-    """Decode HTML entities the CMS leaves in plain-text fields."""
-    return html.unescape(_str(value))
+_TAG = re.compile(r"<[^>]*>")
+_SPACE = re.compile(r"\s+")
+
+
+def clean_text(value: Any) -> str:
+    """Turn a CMS text field into plain text.
+
+    Vue's CMS leaves HTML entities and, in some descriptions, markup pasted
+    from an e-mail client (``<span data-olk-copy-source=...>``).
+    """
+    text = _TAG.sub(" ", _str(value))
+    return _SPACE.sub(" ", html.unescape(text)).strip()
 
 
 @dataclass(frozen=True, slots=True)
@@ -55,7 +65,7 @@ class Attribute:
             name=_str(raw.get("name")),
             short_name=_str(raw.get("shortName")),
             attribute_type=_str(raw.get("attributeType")),
-            description=_clean(raw.get("description")),
+            description=clean_text(raw.get("description")),
             color=_str(raw.get("color")),
         )
 
@@ -161,15 +171,15 @@ class Film:
         )
         return cls(
             film_id=_str(raw["filmId"]),
-            title=_clean(raw.get("filmTitle")),
-            original_title=_clean(raw.get("originalTitle")),
+            title=clean_text(raw.get("filmTitle")),
+            original_title=clean_text(raw.get("originalTitle")),
             status=int(raw.get("filmStatus") or 0),
             release_date=date.fromisoformat(release[:10]) if release else None,
             running_time=int(raw.get("runningTime") or 0),
-            synopsis=_clean(raw.get("synopsisShort")),
-            cast=_clean(raw.get("cast")),
-            director=_clean(raw.get("director")),
-            distributor=_clean(raw.get("distributor")),
+            synopsis=clean_text(raw.get("synopsisShort")),
+            cast=clean_text(raw.get("cast")),
+            director=clean_text(raw.get("director")),
+            distributor=clean_text(raw.get("distributor")),
             url=_str(raw.get("filmUrl")),
             poster_url=_str(raw.get("posterImageSrc")),
             panel_url=_str(raw.get("panelImageUrl")),
@@ -208,7 +218,8 @@ class FilmDetails:
         fetched = raw.get("fetched")
         return cls(
             genres=[str(g) for g in raw.get("genres") or []],
-            long_synopsis=str(raw.get("long_synopsis") or ""),
+            # Cleaned again: copies stored before 1.1.3 may still hold markup.
+            long_synopsis=clean_text(raw.get("long_synopsis")),
             trailer_url=str(raw.get("trailer_url") or ""),
             fetched=datetime.fromisoformat(fetched) if fetched else None,
         )
@@ -299,8 +310,8 @@ class SeatMap:
         areas = tuple(
             SeatArea(
                 code=_str(area.get("areaCategoryCode")),
-                name=_clean(area.get("areaName")),
-                description=_clean(area.get("areaDescription")),
+                name=clean_text(area.get("areaName")),
+                description=clean_text(area.get("areaDescription")),
                 price_cents=int(area.get("areaMainPriceInCents") or 0),
                 color=_str(area.get("areaColor")),
             )

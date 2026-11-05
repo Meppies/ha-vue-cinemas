@@ -1,0 +1,7 @@
+get_showings:
+  fields:
+    entity_id:
+      required: true
+      selector:
+        entity:
+          integration: vue_cinemas

@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vue-bioscoop toevoegen",
+        "description": "Kies de bioscoop die je wilt volgen. Daarna kun je er meerdere kijklijsten aan toevoegen, elk met eigen filters.",
+        "data": {
+          "cinema_id": "Bioscoop"
+        },
+        "data_description": {
+          "cinema_id": "De Vue-bioscoop waarvan je het programma in Home Assistant wilt."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "vuecinemas.nl is niet bereikbaar. Controleer de verbinding en probeer het opnieuw."
+    },
+    "abort": {
+      "already_configured": "Deze bioscoop is al ingesteld.",
+      "all_configured": "Alle Vue-bioscopen zijn al ingesteld."
+    }
+  },
+  "config_subentries": {
+    "watchlist": {
+      "initiate_flow": {
+        "user": "Kijklijst toevoegen"
+      },
+      "entry_type": "Kijklijst",
+      "step": {
+        "user": {
+          "title": "Nieuwe kijklijst",
+          "description": "Een kijklijst selecteert voorstellingen van deze bioscoop. Laat een filter leeg om alles mee te nemen.",
+          "data": {
+            "name": "Naam",
+            "mode": "Wat tonen",
+            "days_ahead": "Dagen vooruit",
+            "screens": "Zalen",
+            "genres": "Genres",
+            "attributes": "Kenmerken",
+            "max_certificate": "Maximale leeftijd (Kijkwijzer)",
+            "hide_sold_out": "Uitverkochte voorstellingen verbergen",
+            "include_coming_soon": "Binnenkort-films tonen"
+          },
+          "data_description": {
+            "name": "Zichtbaar op het apparaat en in de kaart, bijvoorbeeld 'Kinderen' of 'Horror'.",
+            "mode": "Alleen films die al draaien, of ook voorverkoop en voorpremières van films die nog moeten uitkomen.",
+            "days_ahead": "Hoe ver vooruit je wilt kijken. 0 is alleen vandaag.",
+            "screens": "Alleen voorstellingen in deze zalen. Leeg is alle zalen.",
+            "genres": "Alleen films in een van deze genres. Genres komen van de filmpagina's op vuecinemas.nl.",
+            "attributes": "Alleen voorstellingen met minstens één van deze kenmerken, bijvoorbeeld 3D, Dolby Atmos of Nederlandse Versie.",
+            "max_certificate": "Verberg films met een hogere Kijkwijzer-leeftijd. Films zonder classificatie worden altijd getoond.",
+            "hide_sold_out": "Laat uitverkochte voorstellingen weg.",
+            "include_coming_soon": "Toon ook aangekondigde films die nog geen voorstellingen hebben."
+          }
+        },
+        "reconfigure": {
+          "title": "Kijklijst aanpassen",
+          "description": "Een kijklijst selecteert voorstellingen van deze bioscoop. Laat een filter leeg om alles mee te nemen.",
+          "data": {
+            "name": "Naam",
+            "mode": "Wat tonen",
+            "days_ahead": "Dagen vooruit",
+            "screens": "Zalen",
+            "genres": "Genres",
+            "attributes": "Kenmerken",
+            "max_certificate": "Maximale leeftijd (Kijkwijzer)",
+            "hide_sold_out": "Uitverkochte voorstellingen verbergen",
+            "include_coming_soon": "Binnenkort-films tonen"
+          },
+          "data_description": {
+            "name": "Zichtbaar op het apparaat en in de kaart, bijvoorbeeld 'Kinderen' of 'Horror'.",
+            "mode": "Alleen films die al draaien, of ook voorverkoop en voorpremières van films die nog moeten uitkomen.",
+            "days_ahead": "Hoe ver vooruit je wilt kijken. 0 is alleen vandaag.",
+            "screens": "Alleen voorstellingen in deze zalen. Leeg is alle zalen.",
+            "genres": "Alleen films in een van deze genres. Genres komen van de filmpagina's op vuecinemas.nl.",
+            "attributes": "Alleen voorstellingen met minstens één van deze kenmerken, bijvoorbeeld 3D, Dolby Atmos of Nederlandse Versie.",
+            "max_certificate": "Verberg films met een hogere Kijkwijzer-leeftijd. Films zonder classificatie worden altijd getoond.",
+            "hide_sold_out": "Laat uitverkochte voorstellingen weg.",
+            "include_coming_soon": "Toon ook aangekondigde films die nog geen voorstellingen hebben."
+          }
+        }
+      },
+      "error": {
+        "name_required": "Vul een naam in.",
+        "name_exists": "Er bestaat al een kijklijst met deze naam voor deze bioscoop."
+      },
+      "abort": {
+        "entry_not_loaded": "De bioscoop is niet geladen. Wacht tot hij geladen is en probeer het opnieuw.",
+        "reconfigure_successful": "De kijklijst is bijgewerkt."
+      }
+    }
+  },
+  "selector": {
+    "mode": {
+      "options": {
+        "now_showing": "Nu in de bioscoop",
+        "all": "Ook voorverkoop en voorpremières"
+      }
+    },
+    "max_certificate": {
+      "options": {
+        "any": "Geen limiet",
+        "al": "AL (alle leeftijden)",
+        "6": "6",
+        "9": "9",
+        "12": "12",
+        "14": "14",
+        "16": "16",
+        "18": "18"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_showing": {
+        "name": "Volgende voorstelling",
+        "state_attributes": {
+          "film": {
+            "name": "Film"
+          },
+          "screen": {
+            "name": "Zaal"
+          },
+          "end": {
+            "name": "Einde"
+          },
+          "attributes": {
+            "name": "Kenmerken"
+          }
+        }
+      },
+      "showings": {
+        "name": "Voorstellingen",
+        "unit_of_measurement": "voorstellingen",
+        "state_attributes": {
+          "films": {
+            "name": "Films"
+          }
+        }
+      }
+    },
+    "calendar": {
+      "calendar": {
+        "name": "Programma"
+      }
+    }
+  },
+  "exceptions": {
+    "update_failed": {
+      "message": "Het programma kon niet worden opgehaald van vuecinemas.nl: {error}"
+    },
+    "unknown_entity": {
+      "message": "{entity_id} is geen entiteit van een Vue Cinemas-kijklijst."
+    },
+    "unknown_entry": {
+      "message": "Geen Vue Cinemas-item met id {entry_id}."
+    },
+    "unknown_watchlist": {
+      "message": "Geen kijklijst met id {watchlist_id}."
+    },
+    "entry_not_loaded": {
+      "message": "{cinema} is niet geladen."
+    }
+  },
+  "issues": {
+    "genres_unavailable": {
+      "title": "Genrefilter voor Vue {cinema} werkt niet",
+      "description": "Er konden geen genres worden gelezen van de filmpagina's op vuecinemas.nl, dus deze kijklijsten tonen geen films: {watchlists}.\n\nMogelijk is de site veranderd. Haal het genrefilter voorlopig weg uit die kijklijsten, of kijk of er een update van de integratie is."
+    }
+  },
+  "services": {
+    "get_showings": {
+      "name": "Voorstellingen ophalen",
+      "description": "Geeft de voorstellingen, films en binnenkort-lijst van één kijklijst terug.",
+      "fields": {
+        "entity_id": {
+          "name": "Kijklijst-entiteit",
+          "description": "Een sensor of kalender van de kijklijst."
+        }
+      }
+    }
+  }
+}

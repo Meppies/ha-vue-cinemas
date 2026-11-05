@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add a Vue cinema",
+        "description": "Choose the cinema to follow. You can add several watchlists to it afterwards, each with its own filters.",
+        "data": {
+          "cinema_id": "Cinema"
+        },
+        "data_description": {
+          "cinema_id": "The Vue cinema whose programme you want in Home Assistant."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach vuecinemas.nl. Check the connection and try again."
+    },
+    "abort": {
+      "already_configured": "This cinema is already set up.",
+      "all_configured": "Every Vue cinema is already set up."
+    }
+  },
+  "config_subentries": {
+    "watchlist": {
+      "initiate_flow": {
+        "user": "Add watchlist"
+      },
+      "entry_type": "Watchlist",
+      "step": {
+        "user": {
+          "title": "New watchlist",
+          "description": "A watchlist selects showings from this cinema. Leave a filter empty to include everything.",
+          "data": {
+            "name": "Name",
+            "mode": "What to show",
+            "days_ahead": "Days ahead",
+            "screens": "Screens",
+            "genres": "Genres",
+            "attributes": "Features",
+            "max_certificate": "Maximum age rating",
+            "hide_sold_out": "Hide sold-out showings",
+            "include_coming_soon": "List coming-soon films"
+          },
+          "data_description": {
+            "name": "Shown on the device and in the card, for example 'Kids' or 'Horror'.",
+            "mode": "Only films already released, or also pre-sales and premières of films not out yet.",
+            "days_ahead": "How far ahead to look. 0 means today only.",
+            "screens": "Only showings in these screens. Empty means all screens.",
+            "genres": "Only films in one of these genres. Genres are read from the film pages on vuecinemas.nl.",
+            "attributes": "Only showings with at least one of these features, for example 3D, Dolby Atmos or Nederlandse Versie.",
+            "max_certificate": "Hide films with a higher Kijkwijzer age rating. Films not yet rated are always shown.",
+            "hide_sold_out": "Leave out showings that are sold out.",
+            "include_coming_soon": "Also list announced films that have no showings yet."
+          }
+        },
+        "reconfigure": {
+          "title": "Change watchlist",
+          "description": "A watchlist selects showings from this cinema. Leave a filter empty to include everything.",
+          "data": {
+            "name": "Name",
+            "mode": "What to show",
+            "days_ahead": "Days ahead",
+            "screens": "Screens",
+            "genres": "Genres",
+            "attributes": "Features",
+            "max_certificate": "Maximum age rating",
+            "hide_sold_out": "Hide sold-out showings",
+            "include_coming_soon": "List coming-soon films"
+          },
+          "data_description": {
+            "name": "Shown on the device and in the card, for example 'Kids' or 'Horror'.",
+            "mode": "Only films already released, or also pre-sales and premières of films not out yet.",
+            "days_ahead": "How far ahead to look. 0 means today only.",
+            "screens": "Only showings in these screens. Empty means all screens.",
+            "genres": "Only films in one of these genres. Genres are read from the film pages on vuecinemas.nl.",
+            "attributes": "Only showings with at least one of these features, for example 3D, Dolby Atmos or Nederlandse Versie.",
+            "max_certificate": "Hide films with a higher Kijkwijzer age rating. Films not yet rated are always shown.",
+            "hide_sold_out": "Leave out showings that are sold out.",
+            "include_coming_soon": "Also list announced films that have no showings yet."
+          }
+        }
+      },
+      "error": {
+        "name_required": "Enter a name.",
+        "name_exists": "A watchlist with this name already exists for this cinema."
+      },
+      "abort": {
+        "entry_not_loaded": "The cinema is not loaded. Wait until it has loaded, then try again.",
+        "reconfigure_successful": "The watchlist has been updated."
+      }
+    }
+  },
+  "selector": {
+    "mode": {
+      "options": {
+        "now_showing": "Now showing",
+        "all": "Also pre-sales and premières"
+      }
+    },
+    "max_certificate": {
+      "options": {
+        "any": "No limit",
+        "al": "AL (all ages)",
+        "6": "6",
+        "9": "9",
+        "12": "12",
+        "14": "14",
+        "16": "16",
+        "18": "18"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_showing": {
+        "name": "Next showing",
+        "state_attributes": {
+          "film": {
+            "name": "Film"
+          },
+          "screen": {
+            "name": "Screen"
+          },
+          "end": {
+            "name": "Ends"
+          },
+          "attributes": {
+            "name": "Features"
+          }
+        }
+      },
+      "showings": {
+        "name": "Showings",
+        "unit_of_measurement": "showings",
+        "state_attributes": {
+          "films": {
+            "name": "Films"
+          }
+        }
+      }
+    },
+    "calendar": {
+      "calendar": {
+        "name": "Programme"
+      }
+    }
+  },
+  "exceptions": {
+    "update_failed": {
+      "message": "Could not fetch the programme from vuecinemas.nl: {error}"
+    },
+    "unknown_entity": {
+      "message": "{entity_id} is not a Vue Cinemas watchlist entity."
+    },
+    "unknown_entry": {
+      "message": "No Vue Cinemas entry with id {entry_id}."
+    },
+    "unknown_watchlist": {
+      "message": "No watchlist with id {watchlist_id}."
+    },
+    "entry_not_loaded": {
+      "message": "{cinema} is not loaded."
+    }
+  },
+  "issues": {
+    "genres_unavailable": {
+      "title": "Genre filter for Vue {cinema} not working",
+      "description": "No genres could be read from the vuecinemas.nl film pages, so these watchlists show no films: {watchlists}.\n\nThe site may have changed. Remove the genre filter from those watchlists for now, or check the integration for an update."
+    }
+  },
+  "services": {
+    "get_showings": {
+      "name": "Get showings",
+      "description": "Returns the showings, films and coming-soon list of one watchlist.",
+      "fields": {
+        "entity_id": {
+          "name": "Watchlist entity",
+          "description": "Any sensor or calendar of the watchlist."
+        }
+      }
+    }
+  }
+}

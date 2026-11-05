@@ -1,0 +1,14 @@
+{
+  "entity": {
+    "sensor": {
+      "next_showing": { "default": "mdi:movie-open-play" },
+      "showings": { "default": "mdi:filmstrip-box-multiple" }
+    },
+    "calendar": {
+      "calendar": { "default": "mdi:calendar-star" }
+    }
+  },
+  "services": {
+    "get_showings": { "service": "mdi:movie-search" }
+  }
+}

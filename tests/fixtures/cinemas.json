@@ -1,0 +1,46 @@
+{
+ "result": [
+  {
+   "alpha": "A",
+   "cinemas": [
+    {
+     "cinemaId": "1006",
+     "cinemaName": "Alkmaar",
+     "fullName": "Alkmaar",
+     "venueCurrency": "EUR",
+     "itemName": "Alkmaar",
+     "whatsOnUrl": "https://www.vuecinemas.nl/cinema/alkmaar/nu-in-de-bioscoop",
+     "isSecondaryMarket": false,
+     "prolongingBookingTimer": 15
+    },
+    {
+     "cinemaId": "1001",
+     "cinemaName": "Amersfoort",
+     "fullName": "Amersfoort",
+     "venueCurrency": "EUR",
+     "itemName": "Amersfoort",
+     "whatsOnUrl": "https://www.vuecinemas.nl/cinema/amersfoort/nu-in-de-bioscoop",
+     "isSecondaryMarket": false,
+     "prolongingBookingTimer": 15
+    }
+   ]
+  },
+  {
+   "alpha": "D",
+   "cinemas": [
+    {
+     "cinemaId": "1007",
+     "cinemaName": "Deventer",
+     "fullName": "Deventer",
+     "venueCurrency": "EUR",
+     "itemName": "Deventer",
+     "whatsOnUrl": "https://www.vuecinemas.nl/cinema/deventer/nu-in-de-bioscoop",
+     "isSecondaryMarket": false,
+     "prolongingBookingTimer": 15
+    }
+   ]
+  }
+ ],
+ "responseCode": 0,
+ "errorMessage": null
+}

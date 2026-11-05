@@ -1,0 +1,810 @@
+{
+ "result": [
+  {
+   "showingGroups": [
+    {
+     "date": "2026-11-05T00:00:00",
+     "datePrefix": "Vandaag",
+     "pricingTypes": [],
+     "sessions": [
+      {
+       "sessionId": "13204",
+       "bookingUrl": "/kopen/overzicht/1001/HO00000506/13204",
+       "formattedPrice": "€ 10,00",
+       "isPriceVisible": true,
+       "duration": 109,
+       "startTime": "2026-11-05T21:30:00",
+       "endTime": "2026-11-05T23:59:00",
+       "showTimeWithTimeZone": "2026-11-05T21:30:00+01:00",
+       "isSoldOut": false,
+       "color": null,
+       "isMidnightSession": false,
+       "isBookingAvailable": true,
+       "bookingAvailability": 0,
+       "attributes": [
+        {
+         "name": "Netherlands",
+         "shortName": "",
+         "value": "Netherlands",
+         "description": "",
+         "attributeType": "Language",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Singleseatrule",
+         "shortName": "",
+         "value": "Singleseatrule",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        }
+       ],
+       "screenName": "Zaal 3",
+       "sessionPricingDisplayStatus": 1,
+       "wheelchairSeatAvailability": 1
+      }
+     ]
+    },
+    {
+     "date": "2026-11-06T00:00:00",
+     "datePrefix": "Morgen",
+     "pricingTypes": [],
+     "sessions": [
+      {
+       "sessionId": "13210",
+       "bookingUrl": "/kopen/overzicht/1001/HO00000506/13210",
+       "formattedPrice": "€ 10,00",
+       "isPriceVisible": true,
+       "duration": 109,
+       "startTime": "2026-11-06T19:00:00",
+       "endTime": "2026-11-06T21:19:00",
+       "showTimeWithTimeZone": "2026-11-06T19:00:00+01:00",
+       "isSoldOut": false,
+       "color": null,
+       "isMidnightSession": false,
+       "isBookingAvailable": true,
+       "bookingAvailability": 0,
+       "attributes": [
+        {
+         "name": "Netherlands",
+         "shortName": "",
+         "value": "Netherlands",
+         "description": "",
+         "attributeType": "Language",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "D-Box",
+         "shortName": "D-Box",
+         "value": "D-Box",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Dolby Atmos",
+         "shortName": "Dolby Atmos",
+         "value": "Dolby Atmos",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Singleseatrule",
+         "shortName": "",
+         "value": "Singleseatrule",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        }
+       ],
+       "screenName": "Zaal 1",
+       "sessionPricingDisplayStatus": 1,
+       "wheelchairSeatAvailability": 1
+      }
+     ]
+    }
+   ],
+   "filmId": "HO00000506",
+   "certificate": {
+    "name": "16",
+    "description": "",
+    "src": "https://www.vuecinemas.nl/-/media/vuecinemasnl/2026/26-08-kijkwijzer/kijkw-2021-rgb_mini-16.svg?rev=x"
+   },
+   "secondaryCertificates": [
+    {
+     "name": "Angst",
+     "description": "",
+     "src": "https://www.vuecinemas.nl/-/media/angst.png?rev=x"
+    },
+    {
+     "name": "Geweld",
+     "description": "",
+     "src": "https://www.vuecinemas.nl/-/media/geweld.png?rev=x"
+    }
+   ],
+   "filmUrl": "https://www.vuecinemas.nl/film/clayface",
+   "filmAttributes": [],
+   "posterImageSrc": "https://www.vuecinemas.nl/-/media/poster/clayface.jpg?rev=x",
+   "cast": "Tom Rhys Harries, Naomi Ackie",
+   "releaseDate": "2026-10-22T00:00:00",
+   "runningTime": 109,
+   "isDurationUnknown": false,
+   "synopsisShort": "DC Studios’ Clayface is een horror-thriller van regisseur James Watkins.",
+   "filmTitle": "Clayface",
+   "hasSessions": true,
+   "hasTrailer": false,
+   "embargoMessage": null,
+   "embargoEndDate": null,
+   "embargoLevel": null,
+   "priceMessage": "",
+   "alternativeCertificate": {
+    "name": null,
+    "description": null,
+    "src": null
+   },
+   "panelImageUrl": "https://www.vuecinemas.nl/-/media/panel/clayface.jpeg?rev=x",
+   "filmStatus": 1,
+   "trailers": [],
+   "director": "James Watkins",
+   "distributor": "Warner Bros. Pictures International Holland",
+   "movieXchangeCode": "mx-HO00000506",
+   "crossCountryMovieXchangeId": "cc-HO00000506",
+   "originalTitle": "Clayface",
+   "showingInCinemas": [
+    "1001",
+    "1006"
+   ],
+   "genres": [],
+   "sessionAttributes": [
+    {
+     "name": "Netherlands",
+     "shortName": "",
+     "value": "Netherlands",
+     "description": "",
+     "attributeType": "Language",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "D-Box",
+     "shortName": "D-Box",
+     "value": "D-Box",
+     "description": "",
+     "attributeType": "Session",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "Dolby Atmos",
+     "shortName": "Dolby Atmos",
+     "value": "Dolby Atmos",
+     "description": "",
+     "attributeType": "Session",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "Singleseatrule",
+     "shortName": "",
+     "value": "Singleseatrule",
+     "description": "",
+     "attributeType": "Session",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    }
+   ]
+  },
+  {
+   "showingGroups": [
+    {
+     "date": "2026-11-05T00:00:00",
+     "datePrefix": "Vandaag",
+     "pricingTypes": [],
+     "sessions": [
+      {
+       "sessionId": "13100",
+       "bookingUrl": "/kopen/overzicht/1001/HO00000178/13100",
+       "formattedPrice": "€ 10,00",
+       "isPriceVisible": true,
+       "duration": 95,
+       "startTime": "2026-11-05T14:00:00",
+       "endTime": "2026-11-05T15:55:00",
+       "showTimeWithTimeZone": "2026-11-05T14:00:00+01:00",
+       "isSoldOut": false,
+       "color": null,
+       "isMidnightSession": false,
+       "isBookingAvailable": true,
+       "bookingAvailability": 0,
+       "attributes": [
+        {
+         "name": "Nederlandse Versie",
+         "shortName": "NV",
+         "value": "Nederlandse Versie",
+         "description": "",
+         "attributeType": "Language",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Singleseatrule",
+         "shortName": "",
+         "value": "Singleseatrule",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        }
+       ],
+       "screenName": "Zaal 2",
+       "sessionPricingDisplayStatus": 1,
+       "wheelchairSeatAvailability": 1
+      },
+      {
+       "sessionId": "13101",
+       "bookingUrl": "/kopen/overzicht/1001/HO00000178/13101",
+       "formattedPrice": "€ 10,00",
+       "isPriceVisible": true,
+       "duration": 95,
+       "startTime": "2026-11-05T10:30:00",
+       "endTime": "2026-11-05T12:25:00",
+       "showTimeWithTimeZone": "2026-11-05T10:30:00+01:00",
+       "isSoldOut": true,
+       "color": null,
+       "isMidnightSession": false,
+       "isBookingAvailable": false,
+       "bookingAvailability": 0,
+       "attributes": [
+        {
+         "name": "Nederlandse Versie",
+         "shortName": "NV",
+         "value": "Nederlandse Versie",
+         "description": "",
+         "attributeType": "Language",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Singleseatrule",
+         "shortName": "",
+         "value": "Singleseatrule",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        }
+       ],
+       "screenName": "Zaal 2",
+       "sessionPricingDisplayStatus": 1,
+       "wheelchairSeatAvailability": 1
+      }
+     ]
+    },
+    {
+     "date": "2026-11-20T00:00:00",
+     "datePrefix": "",
+     "pricingTypes": [],
+     "sessions": [
+      {
+       "sessionId": "13150",
+       "bookingUrl": "/kopen/overzicht/1001/HO00000178/13150",
+       "formattedPrice": "€ 10,00",
+       "isPriceVisible": true,
+       "duration": 95,
+       "startTime": "2026-11-20T16:00:00",
+       "endTime": "2026-11-20T17:55:00",
+       "showTimeWithTimeZone": "2026-11-20T16:00:00+01:00",
+       "isSoldOut": false,
+       "color": null,
+       "isMidnightSession": false,
+       "isBookingAvailable": true,
+       "bookingAvailability": 0,
+       "attributes": [
+        {
+         "name": "Nederlandse Versie",
+         "shortName": "NV",
+         "value": "Nederlandse Versie",
+         "description": "",
+         "attributeType": "Language",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Singleseatrule",
+         "shortName": "",
+         "value": "Singleseatrule",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        }
+       ],
+       "screenName": "Zaal 5",
+       "sessionPricingDisplayStatus": 1,
+       "wheelchairSeatAvailability": 1
+      }
+     ]
+    }
+   ],
+   "filmId": "HO00000178",
+   "certificate": {
+    "name": "6",
+    "description": "",
+    "src": "https://www.vuecinemas.nl/-/media/vuecinemasnl/2026/26-08-kijkwijzer/kijkw-2021-rgb_mini-6.svg?rev=x"
+   },
+   "secondaryCertificates": [],
+   "filmUrl": "https://www.vuecinemas.nl/film/wen-er-maar-aan",
+   "filmAttributes": [],
+   "posterImageSrc": "https://www.vuecinemas.nl/-/media/poster/wen-er-maar-aan.jpg?rev=x",
+   "cast": "",
+   "releaseDate": "2026-10-01T00:00:00",
+   "runningTime": 95,
+   "isDurationUnknown": false,
+   "synopsisShort": "Een Nederlandse familiefilm.",
+   "filmTitle": "Wen Er Maar Aan",
+   "hasSessions": true,
+   "hasTrailer": false,
+   "embargoMessage": null,
+   "embargoEndDate": null,
+   "embargoLevel": null,
+   "priceMessage": "",
+   "alternativeCertificate": {
+    "name": null,
+    "description": null,
+    "src": null
+   },
+   "panelImageUrl": "https://www.vuecinemas.nl/-/media/panel/wen-er-maar-aan.jpeg?rev=x",
+   "filmStatus": 1,
+   "trailers": [],
+   "director": "",
+   "distributor": "",
+   "movieXchangeCode": "mx-HO00000178",
+   "crossCountryMovieXchangeId": "cc-HO00000178",
+   "originalTitle": "Wen Er Maar Aan",
+   "showingInCinemas": [
+    "1001",
+    "1006"
+   ],
+   "genres": [],
+   "sessionAttributes": [
+    {
+     "name": "Nederlandse Versie",
+     "shortName": "NV",
+     "value": "Nederlandse Versie",
+     "description": "",
+     "attributeType": "Language",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "Singleseatrule",
+     "shortName": "",
+     "value": "Singleseatrule",
+     "description": "",
+     "attributeType": "Session",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    }
+   ]
+  },
+  {
+   "showingGroups": [
+    {
+     "date": "2026-11-06T00:00:00",
+     "datePrefix": "Morgen",
+     "pricingTypes": [],
+     "sessions": [
+      {
+       "sessionId": "13300",
+       "bookingUrl": "/kopen/overzicht/1001/HO00000598/13300",
+       "formattedPrice": "€ 10,00",
+       "isPriceVisible": true,
+       "duration": 125,
+       "startTime": "2026-11-06T20:00:00",
+       "endTime": "2026-11-06T22:25:00",
+       "showTimeWithTimeZone": "2026-11-06T20:00:00+01:00",
+       "isSoldOut": false,
+       "color": null,
+       "isMidnightSession": false,
+       "isBookingAvailable": true,
+       "bookingAvailability": 0,
+       "attributes": [
+        {
+         "name": "Vue Anime",
+         "shortName": "Vue Anime",
+         "value": "Vue Anime",
+         "description": "Jouw favoriete manga&rsquo;s en animeseries komen naar het grote doek in Vue Anime.",
+         "attributeType": "Movie",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Netherlands",
+         "shortName": "",
+         "value": "Netherlands",
+         "description": "",
+         "attributeType": "Language",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "English subtitles",
+         "shortName": "English subtitles",
+         "value": "English subtitles",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Singleseatrule",
+         "shortName": "",
+         "value": "Singleseatrule",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        }
+       ],
+       "screenName": "Zaal 4",
+       "sessionPricingDisplayStatus": 1,
+       "wheelchairSeatAvailability": 1
+      }
+     ]
+    }
+   ],
+   "filmId": "HO00000598",
+   "certificate": {
+    "name": "9",
+    "description": "",
+    "src": "https://www.vuecinemas.nl/-/media/vuecinemasnl/2026/26-08-kijkwijzer/kijkw-2021-rgb_mini-9.svg?rev=x"
+   },
+   "secondaryCertificates": [],
+   "filmUrl": "https://www.vuecinemas.nl/film/spirited-away",
+   "filmAttributes": [
+    {
+     "name": "Vue Anime",
+     "shortName": "Vue Anime",
+     "value": "Vue Anime",
+     "description": "Jouw favoriete manga&rsquo;s en animeseries komen naar het grote doek in Vue Anime.",
+     "attributeType": "Movie",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    }
+   ],
+   "posterImageSrc": "https://www.vuecinemas.nl/-/media/poster/spirited-away.jpg?rev=x",
+   "cast": "",
+   "releaseDate": "2001-07-20T00:00:00",
+   "runningTime": 125,
+   "isDurationUnknown": false,
+   "synopsisShort": "Anime-klassieker van Studio Ghibli.",
+   "filmTitle": "Spirited Away",
+   "hasSessions": true,
+   "hasTrailer": false,
+   "embargoMessage": null,
+   "embargoEndDate": null,
+   "embargoLevel": null,
+   "priceMessage": "",
+   "alternativeCertificate": {
+    "name": null,
+    "description": null,
+    "src": null
+   },
+   "panelImageUrl": "https://www.vuecinemas.nl/-/media/panel/spirited-away.jpeg?rev=x",
+   "filmStatus": 1,
+   "trailers": [],
+   "director": "Hayao Miyazaki",
+   "distributor": "",
+   "movieXchangeCode": "mx-HO00000598",
+   "crossCountryMovieXchangeId": "cc-HO00000598",
+   "originalTitle": "Spirited Away",
+   "showingInCinemas": [
+    "1001",
+    "1006"
+   ],
+   "genres": [],
+   "sessionAttributes": [
+    {
+     "name": "Vue Anime",
+     "shortName": "Vue Anime",
+     "value": "Vue Anime",
+     "description": "Jouw favoriete manga&rsquo;s en animeseries komen naar het grote doek in Vue Anime.",
+     "attributeType": "Movie",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "Netherlands",
+     "shortName": "",
+     "value": "Netherlands",
+     "description": "",
+     "attributeType": "Language",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "English subtitles",
+     "shortName": "English subtitles",
+     "value": "English subtitles",
+     "description": "",
+     "attributeType": "Session",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "Singleseatrule",
+     "shortName": "",
+     "value": "Singleseatrule",
+     "description": "",
+     "attributeType": "Session",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    }
+   ]
+  },
+  {
+   "showingGroups": [
+    {
+     "date": "2026-12-16T00:00:00",
+     "datePrefix": "",
+     "pricingTypes": [],
+     "sessions": [
+      {
+       "sessionId": "12170",
+       "bookingUrl": "/kopen/overzicht/1001/HO00000205/12170",
+       "formattedPrice": "€ 14,50",
+       "isPriceVisible": true,
+       "duration": 165,
+       "startTime": "2026-12-16T09:00:00",
+       "endTime": "2026-12-16T12:30:00",
+       "showTimeWithTimeZone": "2026-12-16T09:00:00+01:00",
+       "isSoldOut": false,
+       "color": null,
+       "isMidnightSession": false,
+       "isBookingAvailable": true,
+       "bookingAvailability": 0,
+       "attributes": [
+        {
+         "name": "Netherlands",
+         "shortName": "",
+         "value": "Netherlands",
+         "description": "",
+         "attributeType": "Language",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "3D",
+         "shortName": "3D",
+         "value": "3D",
+         "description": "",
+         "attributeType": "Session_Special",
+         "color": "#f7941e",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "INFINITY VISION",
+         "shortName": "INFINITY VISION",
+         "value": "INFINITY VISION",
+         "description": "",
+         "attributeType": "Session_Special",
+         "color": "#f7941e",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        },
+        {
+         "name": "Singleseatrule",
+         "shortName": "",
+         "value": "Singleseatrule",
+         "description": "",
+         "attributeType": "Session",
+         "color": "",
+         "borderGradient": [],
+         "backgroundImageUrl": null,
+         "iconName": null
+        }
+       ],
+       "screenName": "Zaal 2",
+       "sessionPricingDisplayStatus": 1,
+       "wheelchairSeatAvailability": 1
+      }
+     ]
+    }
+   ],
+   "filmId": "HO00000205",
+   "certificate": {
+    "name": "12",
+    "description": "",
+    "src": "https://www.vuecinemas.nl/-/media/vuecinemasnl/2026/26-08-kijkwijzer/kijkw-2021-rgb_mini-12.svg?rev=x"
+   },
+   "secondaryCertificates": [],
+   "filmUrl": "https://www.vuecinemas.nl/film/avengers-doomsday",
+   "filmAttributes": [],
+   "posterImageSrc": "https://www.vuecinemas.nl/-/media/poster/avengers-doomsday.jpg?rev=x",
+   "cast": "Robert Downey Jr., Chris Hemsworth",
+   "releaseDate": "2026-12-16T00:00:00",
+   "runningTime": 165,
+   "isDurationUnknown": false,
+   "synopsisShort": "In Avengers: Doomsday komen geliefde helden samen.",
+   "filmTitle": "Avengers: Doomsday",
+   "hasSessions": true,
+   "hasTrailer": false,
+   "embargoMessage": null,
+   "embargoEndDate": null,
+   "embargoLevel": null,
+   "priceMessage": "",
+   "alternativeCertificate": {
+    "name": null,
+    "description": null,
+    "src": null
+   },
+   "panelImageUrl": "https://www.vuecinemas.nl/-/media/panel/avengers-doomsday.jpeg?rev=x",
+   "filmStatus": 2,
+   "trailers": [],
+   "director": "Anthony Russo, Joe Russo",
+   "distributor": "Walt Disney Studios Motion Pictures (NL)",
+   "movieXchangeCode": "mx-HO00000205",
+   "crossCountryMovieXchangeId": "cc-HO00000205",
+   "originalTitle": "Avengers: Doomsday",
+   "showingInCinemas": [
+    "1001",
+    "1006"
+   ],
+   "genres": [],
+   "sessionAttributes": [
+    {
+     "name": "3D",
+     "shortName": "3D",
+     "value": "3D",
+     "description": "",
+     "attributeType": "Session_Special",
+     "color": "#f7941e",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "INFINITY VISION",
+     "shortName": "INFINITY VISION",
+     "value": "INFINITY VISION",
+     "description": "",
+     "attributeType": "Session_Special",
+     "color": "#f7941e",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "Netherlands",
+     "shortName": "",
+     "value": "Netherlands",
+     "description": "",
+     "attributeType": "Language",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    },
+    {
+     "name": "Singleseatrule",
+     "shortName": "",
+     "value": "Singleseatrule",
+     "description": "",
+     "attributeType": "Session",
+     "color": "",
+     "borderGradient": [],
+     "backgroundImageUrl": null,
+     "iconName": null
+    }
+   ]
+  },
+  {
+   "showingGroups": [],
+   "filmId": "HO00000321",
+   "certificate": {
+    "name": "tbc",
+    "description": "",
+    "src": "https://www.vuecinemas.nl/-/media/global/img/certificates/tbc.png?rev=x"
+   },
+   "secondaryCertificates": [],
+   "filmUrl": "https://www.vuecinemas.nl/film/jumanji-open-world",
+   "filmAttributes": [],
+   "posterImageSrc": "https://www.vuecinemas.nl/-/media/poster/jumanji-open-world.jpg?rev=x",
+   "cast": "",
+   "releaseDate": "2026-12-10T00:00:00",
+   "runningTime": 0,
+   "isDurationUnknown": false,
+   "synopsisShort": "",
+   "filmTitle": "Jumanji: Open World",
+   "hasSessions": false,
+   "hasTrailer": false,
+   "embargoMessage": null,
+   "embargoEndDate": null,
+   "embargoLevel": null,
+   "priceMessage": "",
+   "alternativeCertificate": {
+    "name": null,
+    "description": null,
+    "src": null
+   },
+   "panelImageUrl": "https://www.vuecinemas.nl/-/media/panel/jumanji-open-world.jpeg?rev=x",
+   "filmStatus": 0,
+   "trailers": [],
+   "director": "",
+   "distributor": "",
+   "movieXchangeCode": "mx-HO00000321",
+   "crossCountryMovieXchangeId": "cc-HO00000321",
+   "originalTitle": "Jumanji: Open World",
+   "showingInCinemas": [],
+   "genres": [],
+   "sessionAttributes": []
+  }
+ ],
+ "responseCode": 0,
+ "errorMessage": null
+}

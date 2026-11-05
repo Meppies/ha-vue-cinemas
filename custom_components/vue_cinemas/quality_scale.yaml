@@ -1,0 +1,81 @@
+# Integration quality scale self-assessment against the Platinum tier.
+# Custom integrations are not graded by Home Assistant; this file records
+# which rules are met and why any rule is exempt.
+rules:
+  # ---- Bronze ---------------------------------------------------------
+  action-setup: done  # get_showings registered in async_setup
+  appropriate-polling: done  # 30 minutes; film pages cached for 7 days
+  brands:
+    status: done
+    comment: Icon shipped in custom_components/vue_cinemas/brand (local brand images).
+  common-modules: done
+  config-flow: done
+  config-flow-test-coverage: done
+  dependency-transparency:
+    status: done
+    comment: No third-party requirements; the API client is part of the integration.
+  docs-actions: done
+  docs-high-level-description: done
+  docs-installation-instructions: done
+  docs-removal-instructions: done
+  entity-event-setup: done  # timers started in async_added_to_hass, cancelled on removal
+  entity-unique-id: done
+  has-entity-name: done
+  runtime-data: done
+  test-before-configure: done  # cinema list fetched before the form; retry form on failure
+  test-before-setup: done  # first refresh raises ConfigEntryNotReady
+  unique-config-entry: done  # unique id = Vue cinema id
+
+  # ---- Silver ---------------------------------------------------------
+  action-exceptions: done
+  config-entry-unloading: done
+  docs-configuration-parameters: done
+  docs-installation-parameters: done
+  entity-unavailable: done
+  integration-owner: done
+  log-when-unavailable: done  # handled once per transition by DataUpdateCoordinator
+  parallel-updates: done
+  reauthentication-flow:
+    status: exempt
+    comment: The Vue programme is public; there are no credentials.
+  test-coverage: done  # 99 %
+
+  # ---- Gold -----------------------------------------------------------
+  devices: done  # one service device per watchlist
+  diagnostics: done
+  discovery:
+    status: exempt
+    comment: A cloud service; nothing to discover on the network.
+  discovery-update-info:
+    status: exempt
+    comment: No discovery.
+  docs-data-update: done
+  docs-examples: done
+  docs-known-limitations: done
+  docs-supported-devices: done
+  docs-supported-functions: done
+  docs-troubleshooting: done
+  docs-use-cases: done
+  dynamic-devices: done  # watchlists added or removed at runtime reload the entry
+  entity-category:
+    status: exempt
+    comment: Every entity is a primary entity of its watchlist.
+  entity-device-class: done  # next showing is a timestamp
+  entity-disabled-by-default:
+    status: exempt
+    comment: Three entities per watchlist, all of them primary.
+  entity-translations: done
+  exception-translations: done
+  icon-translations: done
+  reconfiguration-flow:
+    status: done
+    comment: >-
+      Watchlists are reconfigured through their subentry flow. The cinema
+      itself is the entry's identity; another cinema is another entry.
+  repair-issues: done  # genres_unavailable when a genre filter cannot work
+  stale-devices: done  # removing a watchlist removes its device
+
+  # ---- Platinum -------------------------------------------------------
+  async-dependency: done  # aiohttp client in api.py
+  inject-websession: done  # async_get_clientsession passed to VueCinemasClient
+  strict-typing: done  # mypy --strict clean, enforced in CI

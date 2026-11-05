@@ -1,0 +1,18 @@
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unreachable = true
+explicit_package_bases = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+source = ["custom_components.vue_cinemas"]
+
+[tool.coverage.report]
+fail_under = 95
+show_missing = true

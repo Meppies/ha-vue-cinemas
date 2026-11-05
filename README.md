@@ -7,15 +7,45 @@ the bundled dashboard card on a dashboard: the showings in time order, and a
 tap on a showing opens everything Vue publishes about the film and that
 showing.
 
-![Vue Cinemas card](icon.png)
+![Two watchlists of Vue Amsterdam on a dashboard: everything, and a children's list](https://raw.githubusercontent.com/Meppies/ha-vue-cinemas/main/docs/images/dashboard.png)
 
 > This integration is not affiliated with or endorsed by Vue. It reads the
 > same public data the vuecinemas.nl website uses. Vue publishes no official
 > API, so a change to their site can break it; see
 > [Known limitations](#known-limitations).
 
+## Screenshots
+
+Taken on Home Assistant 2026.11 with live data from Vue Amsterdam.
+
+**Tap a showing for everything about the film and that showing:** backdrop,
+poster, Kijkwijzer rating and content descriptors, screen, price, wheelchair
+space, other showings, synopsis, genre and cast, the trailer and a button to
+buy tickets.
+
+![Detail dialog of a showing](https://raw.githubusercontent.com/Meppies/ha-vue-cinemas/main/docs/images/details.png)
+
+**The live seat plan of that showing:** free and taken seats, wheelchair
+spaces, seat types with their price, and how full it is.
+
+![Seat plan with free and taken seats, seat types and prices](https://raw.githubusercontent.com/Meppies/ha-vue-cinemas/main/docs/images/seat-plan.png)
+
+**Adding a cinema** takes one choice:
+
+![Choosing the cinema when adding the integration](https://raw.githubusercontent.com/Meppies/ha-vue-cinemas/main/docs/images/add-cinema.png)
+
+**Each watchlist has its own filters**, here a children's list: Dutch-spoken
+showings for ages up to 6, fourteen days ahead, without sold-out showings.
+
+![The watchlist form with all filters](https://raw.githubusercontent.com/Meppies/ha-vue-cinemas/main/docs/images/watchlist.png)
+
+**One cinema, several watchlists**, each with its own device and entities:
+
+![The integration page with the cinema and two watchlists](https://raw.githubusercontent.com/Meppies/ha-vue-cinemas/main/docs/images/integration.png)
+
 ## Contents
 
+- [Screenshots](#screenshots)
 - [Features](#features)
 - [Installation](#installation)
 - [Configuration](#configuration)
@@ -145,6 +175,12 @@ Each watchlist is a device, *Vue <cinema> · <watchlist>*, with:
 
 The sensors move on to the next showing at the moment a showing starts, not
 only on the next update.
+
+Entity IDs follow the language Home Assistant had when the watchlist was
+created. In Dutch they are `sensor.vue_<cinema>_<watchlist>_volgende_voorstelling`,
+`sensor.vue_<cinema>_<watchlist>_voorstellingen` and
+`calendar.vue_<cinema>_<watchlist>_programma`. The examples below use the
+English names; check **Settings → Entities** (search for "vue") for yours.
 
 ## The dashboard card
 

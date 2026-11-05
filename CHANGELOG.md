@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.3 — 2026-11-05
+
+- The detail dialog no longer repeats the synopsis. Vue's long synopsis is
+  sometimes a rewrite that already contains the short one; it is now shown
+  on its own in that case, and still appended when it continues the short
+  one.
+- Screenshots in the README, taken on Home Assistant 2026.11 with live data.
+- README: entity IDs follow the language of the installation.
+
 ## 1.1.2 — 2026-11-05
 
 - The card now adds itself to **Settings → Dashboards → Resources**, the way

@@ -2,7 +2,7 @@
  * vue-cinemas-card: the programme of a Vue Cinemas watchlist, in time order,
  * with a detail dialog per showing. Served by the vue_cinemas integration.
  */
-const CARD_VERSION = "1.1.2";
+const CARD_VERSION = "1.1.3";
 
 const I18N = {
   nl: {
@@ -301,6 +301,25 @@ class VueCinemasCard extends HTMLElement {
       year: "numeric",
       timeZone: "UTC",
     }).format(new Date(`${isoDate}T00:00:00Z`));
+  }
+
+  // Vue's long synopsis is sometimes a continuation of the short one and
+  // sometimes a rewrite that already contains it. When most words of the
+  // short text recur in the long one, the long one is shown on its own.
+  _synopsis(film) {
+    const short = (film.synopsis || "").trim();
+    const long = (film.long_synopsis || "").trim();
+    if (!long) return short;
+    if (!short) return long;
+    const words = (t) => t.toLowerCase().match(/[\p{L}\p{N}]{4,}/gu) || [];
+    const inLong = new Set(words(long));
+    const shortWords = words(short);
+    const shared = shortWords.filter((w) => inLong.has(w)).length;
+    if (shortWords.length && shared / shortWords.length >= 0.6) return long;
+    const inShort = new Set(shortWords);
+    const longWords = words(long);
+    if (longWords.length && longWords.filter((w) => inShort.has(w)).length / longWords.length >= 0.8) return short;
+    return `${short} ${long}`;
   }
 
   _genre(name) {
@@ -670,7 +689,7 @@ class VueCinemasCard extends HTMLElement {
           ${showingBlock}
           ${otherBlock}
           <section>
-            <p class="synopsis">${esc(film.long_synopsis && film.long_synopsis.length > (film.synopsis || "").length ? `${film.synopsis} ${film.long_synopsis}` : film.synopsis)}</p>
+            <p class="synopsis">${esc(this._synopsis(film))}</p>
             ${filmAttrs}
             <dl class="facts">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
           </section>

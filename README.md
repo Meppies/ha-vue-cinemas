@@ -59,8 +59,13 @@ showing.
 ### Marketplace (Home Assistant 2026.11 and later)
 
 Since Home Assistant 2026.11, HACS is built in as the **Marketplace**. Until
-this integration is in the Marketplace catalog, add it as a custom
-repository:
+this integration is in the Marketplace catalog, the quickest way is this
+button, which opens the repository in your own Marketplace and offers to add
+it:
+
+[![Open your Home Assistant instance and open this repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=Meppies&repository=ha-vue-cinemas&category=integration)
+
+Or add it as a custom repository by hand:
 
 1. Go to **Settings → Marketplace**, open the menu (three dots) and choose
    **Custom repositories**. Adding a custom repository needs the GitHub

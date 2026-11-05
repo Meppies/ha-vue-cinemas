@@ -92,8 +92,10 @@ button when one is due.
    your Home Assistant configuration directory.
 2. Restart Home Assistant.
 
-The card is served and registered by the integration itself. There is no
-separate dashboard resource to add.
+The integration serves the card and adds it to **Settings → Dashboards →
+Resources** by itself (`/vue_cinemas/vue-cinemas-card.js`). After installing,
+refresh the browser, or reset the frontend cache in the Companion app, before
+looking for the card.
 
 ## Configuration
 
@@ -285,8 +287,13 @@ supported in this version.
 - **A watchlist is empty.** Every filter must match: try removing filters one
   at a time. A genre filter without readable genres matches nothing; check
   **Settings → Repairs**.
-- **The card says "Custom element doesn't exist".** Refresh the browser (on
-  the app: clear the frontend cache) after installing or updating.
+- **The card is not in the card picker, or says "Custom element doesn't
+  exist".** Check that at least one cinema is added (the card is only served
+  while the integration is loaded) and that **Settings → Dashboards →
+  Resources** lists `/vue_cinemas/vue-cinemas-card.js`. Then refresh the
+  browser, or reset the frontend cache in the Companion app. With dashboards
+  in YAML mode, add the resource yourself:
+  `/vue_cinemas/vue-cinemas-card.js` as a JavaScript module.
 - **Debug logging:**
 
   ```yaml
@@ -297,7 +304,8 @@ supported in this version.
 
 ## Removal
 
-1. Remove the card(s) from your dashboards.
+1. Remove the card(s) from your dashboards. Removing the last cinema also
+   removes the card from the dashboard resources.
 2. Go to **Settings → Devices & services → Vue Cinemas**, open each cinema's
    menu and choose **Delete**. This removes its watchlists, devices and
    entities.

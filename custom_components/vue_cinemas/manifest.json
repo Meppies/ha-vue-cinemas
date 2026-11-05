@@ -2,7 +2,8 @@
   "domain": "vue_cinemas",
   "name": "Vue Cinemas",
   "after_dependencies": [
-    "frontend"
+    "frontend",
+    "lovelace"
   ],
   "categories": [
     "media_entertainment",
@@ -24,5 +25,5 @@
   ],
   "quality_scale": "platinum",
   "requirements": [],
-  "version": "1.1.1"
+  "version": "1.1.2"
 }

@@ -13,6 +13,7 @@ from homeassistant.helpers.typing import ConfigType
 from homeassistant.loader import async_get_integration
 
 from .api import VueCinemasClient
+from .card import async_register_card, async_unregister_card
 from .const import (
     CARD_FILENAME,
     CARD_URL,
@@ -28,8 +29,6 @@ from .websocket_api import async_setup_websocket
 PLATFORMS: list[Platform] = [Platform.CALENDAR, Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
-_FRONTEND_MODULES = "frontend_extra_module_url"
-
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Register the card, the websocket command and the action."""
@@ -38,8 +37,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     await hass.http.async_register_static_paths(
         [StaticPathConfig(CARD_URL, str(card), cache_headers=False)]
     )
-    if _FRONTEND_MODULES in hass.data:
-        hass.data[_FRONTEND_MODULES].add(f"{CARD_URL}?v={integration.version}")
+    await async_register_card(hass, str(integration.version))
     async_setup_websocket(hass)
     async_setup_services(hass)
     return True
@@ -64,6 +62,15 @@ async def async_unload_entry(hass: HomeAssistant, entry: VueCinemasConfigEntry) 
     """Unload one cinema."""
     ir.async_delete_issue(hass, DOMAIN, f"genres_unavailable_{entry.entry_id}")
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
+
+async def async_remove_entry(hass: HomeAssistant, entry: VueCinemasConfigEntry) -> None:
+    """Remove the card resource when the last cinema is removed."""
+    if not any(
+        other.entry_id != entry.entry_id
+        for other in hass.config_entries.async_entries(DOMAIN)
+    ):
+        await async_unregister_card(hass)
 
 
 async def _async_reload(hass: HomeAssistant, entry: VueCinemasConfigEntry) -> None:

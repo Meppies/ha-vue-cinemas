@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 from typing import Any
+from unittest.mock import patch
 
 from freezegun.api import FrozenDateTimeFactory
 import pytest
@@ -214,6 +215,97 @@ async def test_card_registered_with_frontend(
     hass.data["frontend_extra_module_url"] = set()
     assert await async_setup_component(hass, DOMAIN, {})
     assert any(url.startswith(CARD_URL) for url in hass.data["frontend_extra_module_url"])
+
+
+def _card_resources(hass: HomeAssistant) -> list[dict[str, Any]]:
+    resources = hass.data["lovelace"].resources
+    return [r for r in resources.async_items() if r["url"].startswith(CARD_URL)]
+
+
+async def test_card_dashboard_resource(
+    hass: HomeAssistant,
+    config_entry: MockConfigEntry,
+    api: AiohttpClientMocker,
+    hass_storage: dict[str, Any],
+) -> None:
+    """The card becomes a dashboard resource, is updated, deduplicated and removed."""
+    hass_storage["lovelace_resources"] = {
+        "version": 1,
+        "key": "lovelace_resources",
+        "data": {
+            "items": [
+                {"id": "old", "type": "module", "url": f"{CARD_URL}?v=0.9"},
+                {"id": "dup", "type": "module", "url": CARD_URL},
+                {"id": "other", "type": "module", "url": "/local/other.js"},
+            ]
+        },
+    }
+    assert await async_setup_component(hass, "lovelace", {})
+    config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+    card = _card_resources(hass)
+    assert len(card) == 1
+    assert card[0]["url"].startswith(f"{CARD_URL}?v=")
+    assert card[0]["url"] != f"{CARD_URL}?v=0.9"
+    assert card[0]["type"] == "module"
+    assert len(hass.data["lovelace"].resources.async_items()) == 2
+
+    assert await hass.config_entries.async_remove(config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert _card_resources(hass) == []
+    assert len(hass.data["lovelace"].resources.async_items()) == 1
+
+
+async def test_card_resource_created_and_kept_for_other_entries(
+    hass: HomeAssistant, config_entry: MockConfigEntry, api: AiohttpClientMocker
+) -> None:
+    """A fresh install adds the resource; removing one of two cinemas keeps it."""
+    assert await async_setup_component(hass, "lovelace", {})
+    other = MockConfigEntry(
+        domain=DOMAIN, unique_id="1006", data={"cinema_id": "1006", "cinema_name": "Alkmaar"}
+    )
+    other.add_to_hass(hass)
+    config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert len(_card_resources(hass)) == 1
+    assert await hass.config_entries.async_remove(config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert len(_card_resources(hass)) == 1
+
+
+async def test_card_resource_yaml_mode(
+    hass: HomeAssistant, config_entry: MockConfigEntry, api: AiohttpClientMocker
+) -> None:
+    """Dashboards in YAML mode have no editable resources; setup still works."""
+    assert await async_setup_component(hass, "lovelace", {"lovelace": {"mode": "yaml"}})
+    config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert config_entry.state is ConfigEntryState.LOADED
+    assert await hass.config_entries.async_remove(config_entry.entry_id)
+
+
+async def test_card_resource_failure_does_not_block_setup(
+    hass: HomeAssistant,
+    config_entry: MockConfigEntry,
+    api: AiohttpClientMocker,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """An error from the resource store is logged, not raised."""
+    assert await async_setup_component(hass, "lovelace", {})
+    resources = hass.data["lovelace"].resources
+    await resources.async_load()
+    with (
+        patch.object(resources, "async_create_item", side_effect=RuntimeError("boom")),
+        patch.object(resources, "async_delete_item", side_effect=RuntimeError("boom")),
+    ):
+        config_entry.add_to_hass(hass)
+        assert await hass.config_entries.async_setup(config_entry.entry_id)
+        await hass.async_block_till_done()
+        assert "add /vue_cinemas/vue-cinemas-card.js" in caplog.text
+        assert await hass.config_entries.async_remove(config_entry.entry_id)
 
 
 async def test_films_payload_used(

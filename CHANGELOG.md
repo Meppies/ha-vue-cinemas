@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.2 — 2026-11-05
+
+- The card now adds itself to **Settings → Dashboards → Resources**, the way
+  ns-reisadvies does, and is removed from there when the last cinema is
+  removed. Before, it was only registered as an extra frontend module, and
+  on some installations it did not show up in the card picker.
+
 ## 1.1.1 — 2026-11-05
 
 - Ready for the Home Assistant Marketplace (2026.11): integration categories
